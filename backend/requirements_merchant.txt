@@ -1,0 +1,4 @@
+# Additional dependencies for merchant validation feature
+# Add these to your existing requirements.txt
+
+bcrypt==4.1.2  # For secure PIN hashing

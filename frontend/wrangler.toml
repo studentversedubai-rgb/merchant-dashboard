@@ -1,0 +1,37 @@
+# Cloudflare Pages Configuration
+# This file is automatically detected by Cloudflare Pages
+
+# Build configuration
+[build]
+  command = ""
+  publish = "."
+
+# No build step needed for static HTML/CSS/JS
+
+# Headers for security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(self), geolocation=()"
+
+# HTTPS redirect
+[[redirects]]
+  from = "http://merchant.studentverse.app/*"
+  to = "https://merchant.studentverse.app/:splat"
+  status = 301
+  force = true
+
+# Cache static assets
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
