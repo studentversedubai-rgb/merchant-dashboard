@@ -1,141 +1,18 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="StudentVerse Merchant Validator - Scan and validate student offers">
-    <title>Merchant Validator | StudentVerse</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/assets/svlogo.png" />
+  <link rel="apple-touch-icon" href="/assets/svlogo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="StudentVerse Merchant Validator — Scan and redeem student offers" />
+  <title>Merchant Validator | StudentVerse</title>
 </head>
+
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <h1 class="logo">StudentVerse</h1>
-            <p class="subtitle">Merchant Validator</p>
-        </div>
-    </header>
-
-    <!-- Main Container -->
-    <main class="container">
-        <!-- Step 1: QR Scanner -->
-        <section id="scanner-section" class="section active">
-            <div class="section-header">
-                <h2>Scan QR Code</h2>
-                <p>Point camera at student's QR code</p>
-            </div>
-            
-            <div class="scanner-container">
-                <video id="qr-video" playsinline></video>
-                <div class="scanner-overlay">
-                    <div class="scanner-frame"></div>
-                </div>
-            </div>
-            
-            <button id="start-scan-btn" class="btn btn-primary btn-large">
-                Start Scanner
-            </button>
-            
-            <div class="manual-entry">
-                <p>Or enter code manually:</p>
-                <input type="text" id="manual-code" placeholder="Enter entitlement code" class="input">
-                <button id="manual-submit-btn" class="btn btn-secondary">Submit</button>
-            </div>
-        </section>
-
-        <!-- Step 2: PIN Entry -->
-        <section id="pin-section" class="section">
-            <div class="section-header">
-                <h2>Enter Merchant PIN</h2>
-                <p>Verify your identity to proceed</p>
-            </div>
-            
-            <div class="offer-preview" id="offer-preview">
-                <!-- Populated dynamically -->
-            </div>
-            
-            <div class="pin-input-container">
-                <input type="password" 
-                       id="pin-input" 
-                       class="input input-large" 
-                       placeholder="Enter 4-6 digit PIN"
-                       maxlength="6"
-                       inputmode="numeric"
-                       pattern="[0-9]*">
-                <button id="toggle-pin-visibility" class="btn-icon" type="button">👁️</button>
-            </div>
-            
-            <div class="button-group">
-                <button id="verify-pin-btn" class="btn btn-primary btn-large">Verify PIN</button>
-                <button id="cancel-pin-btn" class="btn btn-secondary">Cancel</button>
-            </div>
-        </section>
-
-        <!-- Step 3: Amount Entry -->
-        <section id="amount-section" class="section">
-            <div class="section-header">
-                <h2>Enter Transaction Details</h2>
-                <p>Enter the total bill amount</p>
-            </div>
-            
-            <div class="discount-info" id="discount-info">
-                <!-- Populated dynamically -->
-            </div>
-            
-            <div class="amount-input-group">
-                <label for="total-amount">Total Amount (AED)</label>
-                <input type="number" 
-                       id="total-amount" 
-                       class="input input-large" 
-                       placeholder="0.00"
-                       step="0.01"
-                       min="0">
-            </div>
-            
-            <div class="calculation-preview" id="calculation-preview">
-                <!-- Populated dynamically -->
-            </div>
-            
-            <div class="button-group">
-                <button id="confirm-redemption-btn" class="btn btn-primary btn-large">Confirm Redemption</button>
-                <button id="cancel-amount-btn" class="btn btn-secondary">Cancel</button>
-            </div>
-        </section>
-
-        <!-- Step 4: Success -->
-        <section id="success-section" class="section">
-            <div class="success-icon">✓</div>
-            <h2>Redemption Successful!</h2>
-            
-            <div class="success-details" id="success-details">
-                <!-- Populated dynamically -->
-            </div>
-            
-            <button id="new-scan-btn" class="btn btn-primary btn-large">Scan Another Code</button>
-        </section>
-
-        <!-- Error Display -->
-        <div id="error-toast" class="toast toast-error">
-            <span id="error-message"></span>
-            <button id="close-error" class="toast-close">×</button>
-        </div>
-
-        <!-- Loading Overlay -->
-        <div id="loading-overlay" class="loading-overlay">
-            <div class="spinner"></div>
-            <p>Processing...</p>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <p>&copy; 2026 StudentVerse. All rights reserved.</p>
-    </footer>
-
-    <!-- QR Scanner Library -->
-    <script src="https://unpkg.com/jsqr@1.4.0/dist/jsQR.js"></script>
-    
-    <!-- Main Application Script -->
-    <script src="app.js"></script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
 </body>
+
 </html>
