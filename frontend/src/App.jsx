@@ -64,7 +64,11 @@ export default function App() {
     try {
       const data = await api.validateEntitlement(rawToken)
       setProofToken(rawToken)
-      setEntitlement(data)
+      // Parse discount_value (e.g. "50%") into a number for AmountStep preview
+      const discountPct = data.discount_value
+        ? parseFloat(data.discount_value.replace('%', ''))
+        : null
+      setEntitlement({ ...data, discount_percentage: discountPct })
       setStep(1)
     } catch (e) {
       setError(e.message)

@@ -60,7 +60,19 @@ export const api = {
 
         if (!res.ok) {
             const status = res.status
-            if (status === 400) throw new Error(data.detail || 'Confirmation failed')
+            if (status === 400) {
+                const msg = (data.detail || '').toLowerCase()
+                if (msg.includes('expired') || msg.includes('invalid or expired') || msg.includes('not found')) {
+                    throw new Error('QR code has expired. Ask the student to regenerate their QR code and scan again.')
+                }
+                if (msg.includes('pin')) {
+                    throw new Error('Incorrect PIN. Please check your merchant PIN and try again.')
+                }
+                if (msg.includes('entitlement is')) {
+                    throw new Error('This offer has already been redeemed or is no longer active.')
+                }
+                throw new Error(data.detail || 'Confirmation failed')
+            }
             if (status === 429) throw new Error('Too many requests. Please wait and try again.')
             throw new Error(data.detail || 'Confirmation failed')
         }
