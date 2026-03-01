@@ -1,0 +1,10 @@
+# wrangler.toml — Cloudflare Pages configuration for the Merchant Dashboard
+# Docs: https://developers.cloudflare.com/pages/configuration/wrangler-configuration/
+
+name = "sv-merchant-validator"
+
+# ── Pages-specific settings ───────────────────────────────────────────────────
+pages_build_output_dir = "frontend/dist"
+
+# ── Compatibility ─────────────────────────────────────────────────────────────
+compatibility_date = "2024-01-01"
