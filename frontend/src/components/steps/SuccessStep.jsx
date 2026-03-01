@@ -21,8 +21,8 @@ export default function SuccessStep({ result, onReset }) {
             <Card className="border-gray-100 text-left">
                 <CardContent className="pt-5 pb-5 space-y-3">
                     {[
-                        { label: 'Offer', value: result?.offer_title || '—' },
-                        { label: 'Original Amount', value: `AED ${parseFloat(result?.total_amount || 0).toFixed(2)}` },
+                        // POST /merchant/confirm returns: total_bill, discount_amount, final_amount, savings, redemption_id
+                        { label: 'Original Amount', value: `AED ${parseFloat(result?.total_bill || 0).toFixed(2)}` },
                         { label: 'Discount Applied', value: `AED ${parseFloat(result?.discount_amount || 0).toFixed(2)}` },
                         { label: 'Customer Paid', value: `AED ${parseFloat(result?.final_amount || 0).toFixed(2)}` },
                         { label: 'Reference', value: result?.redemption_id ? `#${result.redemption_id.slice(0, 8).toUpperCase()}` : '—' },

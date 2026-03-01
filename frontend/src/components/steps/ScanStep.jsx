@@ -67,13 +67,9 @@ export default function ScanStep({ onScanned, error }) {
 
     useEffect(() => () => stopCamera(), [])
 
+    // QR code contains ONLY the raw proof_token string — pass it through as-is.
     const handleCode = (raw) => {
-        let id = raw
-        try {
-            const parsed = JSON.parse(raw)
-            id = parsed.entitlement_id || parsed.id || raw
-        } catch { }
-        onScanned(id)
+        onScanned(raw.trim())
     }
 
     const handleManualSubmit = (e) => {

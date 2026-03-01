@@ -8,6 +8,7 @@ import { Card, CardContent } from '@/components/ui/card'
 export default function AmountStep({ entitlement, onConfirm, onBack, loading, error }) {
     const [amount, setAmount] = useState('')
 
+    // Preview only — actual discount calculated server-side
     const discountPct = entitlement?.discount_percentage || 0
     const total = parseFloat(amount) || 0
     const discountAmt = +(total * (discountPct / 100)).toFixed(2)
@@ -15,7 +16,8 @@ export default function AmountStep({ entitlement, onConfirm, onBack, loading, er
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (total > 0) onConfirm({ totalAmount: total, discountAmount: discountAmt })
+        // Only send totalAmount — backend calculates discount
+        if (total > 0) onConfirm({ totalAmount: total })
     }
 
     return (

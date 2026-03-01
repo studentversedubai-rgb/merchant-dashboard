@@ -46,7 +46,8 @@ function StepIndicator({ current }) {
 
 export default function App() {
   const [step, setStep] = useState(0)          // 0=scan, 1=pin, 2=amount, 3=success
-  const [entitlementId, setEntitlementId] = useState(null)
+  const [proofToken, setProofToken] = useState(null)   // raw proof_token from QR
+  const [redemptionId, setRedemptionId] = useState(null) // from confirm response
   const [entitlement, setEntitlement] = useState(null)
   const [merchantPin, setMerchantPin] = useState(null)
   const [result, setResult] = useState(null)
@@ -55,13 +56,14 @@ export default function App() {
 
   const clearError = () => setError(null)
 
-  // Step 0 → 1: validate QR code
-  const handleScanned = async (id) => {
+  // Step 0 → 1: validate proof_token from QR
+  // QR contains ONLY the raw proof_token string — no JSON wrapper.
+  const handleScanned = async (rawToken) => {
     clearError()
     setLoading(true)
     try {
-      const data = await api.validateEntitlement(id)
-      setEntitlementId(id)
+      const data = await api.validateEntitlement(rawToken)
+      setProofToken(rawToken)
       setEntitlement(data)
       setStep(1)
     } catch (e) {
@@ -79,16 +81,18 @@ export default function App() {
   }
 
   // Step 2 → 3: confirm redemption
-  const handleConfirm = async ({ totalAmount, discountAmount }) => {
+  // Discount is never computed here — backend calculates it.
+  const handleConfirm = async ({ totalAmount }) => {
     clearError()
     setLoading(true)
     try {
       const data = await api.confirmRedemption({
-        entitlementId,
+        proofToken,
         merchantPin,
         totalAmount,
-        discountAmount,
       })
+      // Store redemption_id for optional void
+      setRedemptionId(data.redemption_id || null)
       setResult(data)
       setStep(3)
     } catch (e) {
@@ -100,7 +104,8 @@ export default function App() {
 
   const handleReset = () => {
     setStep(0)
-    setEntitlementId(null)
+    setProofToken(null)
+    setRedemptionId(null)
     setEntitlement(null)
     setMerchantPin(null)
     setResult(null)
