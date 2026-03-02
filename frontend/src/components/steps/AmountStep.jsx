@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { DollarSign, Info } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,6 +15,10 @@ import { Card, CardContent } from '@/components/ui/card'
 export default function AmountStep({ entitlement, onConfirm, onBack, loading, error }) {
     const [amount, setAmount] = useState('')
     const [confirmed, setConfirmed] = useState(false)
+
+    useEffect(() => {
+        if (!loading) setConfirmed(false)
+    }, [loading])
 
     // ── Local preview (estimate only — not sent to API) ─────────────────────
     const discountPct = entitlement?.discount_percentage || 0

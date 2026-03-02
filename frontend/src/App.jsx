@@ -138,6 +138,7 @@ export default function App() {
       setProofToken(rawToken)
       setEntitlement({ ...data, discount_percentage: discountPct })
       setStep(STEP_PIN)
+      pendingRef.current = false
     } catch (e) {
       setError(e.message)
       // Auto-reset scanner after 2 seconds on failure
