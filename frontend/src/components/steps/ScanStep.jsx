@@ -6,11 +6,13 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent } from '@/components/ui/card'
 
-export default function ScanStep({ onScanned, error }) {
+export default function ScanStep({ onScanned, error, disabled }) {
     const videoRef = useRef(null)
     const canvasRef = useRef(null)
     const streamRef = useRef(null)
     const rafRef = useRef(null)
+    // Guard: only call onScanned once per scan session
+    const scannedRef = useRef(false)
 
     const [scanning, setScanning] = useState(false)
     const [manualCode, setManualCode] = useState('')
@@ -26,6 +28,8 @@ export default function ScanStep({ onScanned, error }) {
     }
 
     const startCamera = async () => {
+        if (disabled) return
+        scannedRef.current = false   // allow new scan
         try {
             const stream = await navigator.mediaDevices.getUserMedia({
                 video: { facingMode: 'environment' },
@@ -35,10 +39,11 @@ export default function ScanStep({ onScanned, error }) {
             videoRef.current.play()
             setScanning(true)
         } catch {
-            alert('Camera access denied. Please enable camera permissions.')
+            alert('Camera access denied. Please enable camera permissions and try again.')
         }
     }
 
+    // QR decode loop
     useEffect(() => {
         if (!scanning) return
         const tick = () => {
@@ -54,9 +59,11 @@ export default function ScanStep({ onScanned, error }) {
             ctx.drawImage(video, 0, 0)
             const img = ctx.getImageData(0, 0, canvas.width, canvas.height)
             const code = jsQR(img.data, img.width, img.height)
-            if (code) {
+            if (code && !scannedRef.current) {
+                scannedRef.current = true   // lock to prevent double-fire
                 stopCamera()
-                handleCode(code.data)
+                // QR contains ONLY the raw proof_token — pass through as-is
+                onScanned(code.data.trim())
             } else {
                 rafRef.current = requestAnimationFrame(tick)
             }
@@ -65,26 +72,26 @@ export default function ScanStep({ onScanned, error }) {
         return () => cancelAnimationFrame(rafRef.current)
     }, [scanning])
 
+    // Stop camera on unmount
     useEffect(() => () => stopCamera(), [])
-
-    // QR code contains ONLY the raw proof_token string — pass it through as-is.
-    const handleCode = (raw) => {
-        onScanned(raw.trim())
-    }
 
     const handleManualSubmit = (e) => {
         e.preventDefault()
-        if (manualCode.trim()) onScanned(manualCode.trim())
+        const token = manualCode.trim()
+        if (!token) return
+        setManualCode('')
+        setShowManual(false)
+        onScanned(token)
     }
 
     return (
         <div className="space-y-6">
-            {/* Scanner box */}
+            {/* Scanner viewport */}
             <div className="relative w-full max-w-sm mx-auto aspect-square rounded-2xl overflow-hidden bg-black shadow-lg">
                 <video ref={videoRef} className="w-full h-full object-cover" playsInline muted />
                 <canvas ref={canvasRef} className="hidden" />
 
-                {/* Corner guides */}
+                {/* Scanning guide corners */}
                 {scanning && (
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <div className="relative w-52 h-52">
@@ -92,6 +99,8 @@ export default function ScanStep({ onScanned, error }) {
                             <span className="absolute top-0 right-0 w-8 h-8 border-t-4 border-r-4 border-sv-gold rounded-tr-lg" />
                             <span className="absolute bottom-0 left-0 w-8 h-8 border-b-4 border-l-4 border-sv-gold rounded-bl-lg" />
                             <span className="absolute bottom-0 right-0 w-8 h-8 border-b-4 border-r-4 border-sv-gold rounded-br-lg" />
+                            {/* Scanning line animation */}
+                            <div className="absolute inset-x-0 top-0 h-0.5 bg-sv-gold/70 animate-[scanline_2s_ease-in-out_infinite]" />
                         </div>
                     </div>
                 )}
@@ -104,12 +113,13 @@ export default function ScanStep({ onScanned, error }) {
                 )}
             </div>
 
-            {/* Camera button */}
+            {/* Camera toggle button */}
             <Button
                 size="lg"
                 className="w-full"
                 onClick={scanning ? stopCamera : startCamera}
                 variant={scanning ? 'outline' : 'default'}
+                disabled={disabled}
             >
                 <Camera className="w-5 h-5 mr-2" />
                 {scanning ? 'Stop Scanner' : 'Start Camera Scanner'}
@@ -129,26 +139,45 @@ export default function ScanStep({ onScanned, error }) {
                     size="lg"
                     className="w-full"
                     onClick={() => setShowManual(true)}
+                    disabled={disabled}
                 >
                     <Keyboard className="w-5 h-5 mr-2" />
                     Enter Code Manually
                 </Button>
             ) : (
                 <form onSubmit={handleManualSubmit} className="space-y-3">
-                    <Label htmlFor="manual-code">Entitlement Code</Label>
+                    <Label htmlFor="manual-code">Proof Token</Label>
                     <Input
                         id="manual-code"
-                        placeholder="Paste or type entitlement ID"
+                        placeholder="Paste or type the proof token"
                         value={manualCode}
                         onChange={e => setManualCode(e.target.value)}
+                        disabled={disabled}
                         autoFocus
                     />
-                    <Button type="submit" size="lg" className="w-full" disabled={!manualCode.trim()}>
-                        Validate Code
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button
+                            type="button"
+                            variant="outline"
+                            size="lg"
+                            className="flex-1"
+                            onClick={() => { setShowManual(false); setManualCode('') }}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            type="submit"
+                            size="lg"
+                            className="flex-1"
+                            disabled={!manualCode.trim() || disabled}
+                        >
+                            Validate
+                        </Button>
+                    </div>
                 </form>
             )}
 
+            {/* Error display */}
             {error && (
                 <Card className="border-red-200 bg-red-50">
                     <CardContent className="pt-4 pb-4">
