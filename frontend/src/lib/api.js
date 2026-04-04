@@ -10,7 +10,11 @@ async function apiFetch(path, options = {}) {
     try {
         res = await fetch(`${API_BASE_URL}${path}`, {
             ...options,
-            headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Merchant-Api-Key': import.meta.env.MERCHANT_API_KEY || '',
+                ...(options.headers || {})
+            },
         })
     } catch {
         // Network failure (no internet, CORS, timeout)
