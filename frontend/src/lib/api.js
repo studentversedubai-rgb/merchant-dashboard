@@ -1,23 +1,32 @@
 import { parseApiError } from '@/lib/errors'
 
-export const API_BASE_URL = 'https://svapp-backend-production.up.railway.app'
+export const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://svapp-backend-production.up.railway.app'
 
 /**
  * Low-level fetch wrapper — throws a structured error with { status, message }.
  */
 async function apiFetch(path, options = {}) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+    
     let res
     try {
         res = await fetch(`${API_BASE_URL}${path}`, {
             ...options,
+            signal: controller.signal,
             headers: {
                 'Content-Type': 'application/json',
-                'X-Merchant-Api-Key': import.meta.env.MERCHANT_API_KEY || '',
+                'X-Merchant-Api-Key': import.meta.env.VITE_MERCHANT_API_KEY || 'k1I6ufH5GV3LXvTEMlbDBg27w5iERbXxoR4-DrG3-mg',
                 ...(options.headers || {})
             },
         })
-    } catch {
+        clearTimeout(timeoutId);
+    } catch (err) {
+        clearTimeout(timeoutId);
         // Network failure (no internet, CORS, timeout)
+        if (err.name === 'AbortError') {
+            throw new Error('Request timed out. The server took too long to respond.');
+        }
         throw new Error(parseApiError(0))
     }
 
