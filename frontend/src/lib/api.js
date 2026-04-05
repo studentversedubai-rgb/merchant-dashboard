@@ -16,7 +16,6 @@ async function apiFetch(path, options = {}) {
             signal: controller.signal,
             headers: {
                 'Content-Type': 'application/json',
-                'X-Merchant-Api-Key': import.meta.env.VITE_MERCHANT_API_KEY || 'k1I6ufH5GV3LXvTEMlbDBg27w5iERbXxoR4-DrG3-mg',
                 ...(options.headers || {})
             },
         })
