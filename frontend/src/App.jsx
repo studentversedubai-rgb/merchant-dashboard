@@ -133,7 +133,7 @@ export default function App() {
       const data = await api.validateEntitlement(rawToken)
       // Parse discount_value ("50%") into numeric for preview display in AmountStep
       const discountPct = data.discount_value
-        ? parseFloat(data.discount_value.replace('%', ''))
+        ? parseFloat(data.discount_value.toString().replace('%', ''))
         : null
       setProofToken(rawToken)
       setEntitlement({ ...data, discount_percentage: discountPct })
