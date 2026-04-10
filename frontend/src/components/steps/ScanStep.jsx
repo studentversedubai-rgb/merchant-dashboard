@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import jsQR from 'jsqr'
-import { Camera, Keyboard } from 'lucide-react'
+import { Camera } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Card, CardContent } from '@/components/ui/card'
 
 export default function ScanStep({ onScanned, error, disabled }) {
@@ -15,8 +13,6 @@ export default function ScanStep({ onScanned, error, disabled }) {
     const scannedRef = useRef(false)
 
     const [scanning, setScanning] = useState(false)
-    const [manualCode, setManualCode] = useState('')
-    const [showManual, setShowManual] = useState(false)
 
     const stopCamera = () => {
         if (streamRef.current) {
@@ -75,14 +71,7 @@ export default function ScanStep({ onScanned, error, disabled }) {
     // Stop camera on unmount
     useEffect(() => () => stopCamera(), [])
 
-    const handleManualSubmit = (e) => {
-        e.preventDefault()
-        const token = manualCode.trim()
-        if (!token) return
-        setManualCode('')
-        setShowManual(false)
-        onScanned(token)
-    }
+
 
     return (
         <div className="space-y-6">
@@ -125,57 +114,7 @@ export default function ScanStep({ onScanned, error, disabled }) {
                 {scanning ? 'Stop Scanner' : 'Start Camera Scanner'}
             </Button>
 
-            {/* Divider */}
-            <div className="flex items-center gap-3">
-                <div className="flex-1 h-px bg-gray-200" />
-                <span className="text-xs text-gray-400 font-medium">OR</span>
-                <div className="flex-1 h-px bg-gray-200" />
-            </div>
 
-            {/* Manual entry */}
-            {!showManual ? (
-                <Button
-                    variant="outline"
-                    size="lg"
-                    className="w-full"
-                    onClick={() => setShowManual(true)}
-                    disabled={disabled}
-                >
-                    <Keyboard className="w-5 h-5 mr-2" />
-                    Enter Code Manually
-                </Button>
-            ) : (
-                <form onSubmit={handleManualSubmit} className="space-y-3">
-                    <Label htmlFor="manual-code">Proof Token</Label>
-                    <Input
-                        id="manual-code"
-                        placeholder="Paste or type the proof token"
-                        value={manualCode}
-                        onChange={e => setManualCode(e.target.value)}
-                        disabled={disabled}
-                        autoFocus
-                    />
-                    <div className="flex gap-2">
-                        <Button
-                            type="button"
-                            variant="outline"
-                            size="lg"
-                            className="flex-1"
-                            onClick={() => { setShowManual(false); setManualCode('') }}
-                        >
-                            Cancel
-                        </Button>
-                        <Button
-                            type="submit"
-                            size="lg"
-                            className="flex-1"
-                            disabled={!manualCode.trim() || disabled}
-                        >
-                            Validate
-                        </Button>
-                    </div>
-                </form>
-            )}
 
             {/* Error display */}
             {error && (

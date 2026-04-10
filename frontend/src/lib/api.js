@@ -67,6 +67,20 @@ export const api = {
     },
 
     /**
+     * POST /merchant/verify-pin
+     * Verify merchant PIN before confirming redemption.
+     */
+    async verifyPin({ proofToken, merchantPin }) {
+        return apiFetch('/merchant/verify-pin', {
+            method: 'POST',
+            body: JSON.stringify({
+                proof_token: proofToken,
+                merchant_pin: merchantPin,
+            }),
+        })
+    },
+
+    /**
      * POST /merchant/confirm
      * Confirm redemption. Discount calculated server-side — never on frontend.
      *

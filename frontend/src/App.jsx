@@ -151,11 +151,22 @@ export default function App() {
     }
   }
 
-  // ── STEP 1 → 2 : Store PIN (no API call) ──────────────────────────────────
-  const handlePinVerified = (pin) => {
+  // ── STEP 1 → 2 : Verify PIN ───────────────────────────────────────────────
+  const handlePinVerified = async (pin) => {
+    if (pendingRef.current || !proofToken) return
+    pendingRef.current = true
     clearError()
-    setMerchantPin(pin)
-    setStep(STEP_AMOUNT)
+    startLoad('Verifying PIN…')
+    try {
+      await api.verifyPin({ proofToken, merchantPin: pin })
+      setMerchantPin(pin)
+      setStep(STEP_AMOUNT)
+    } catch (e) {
+      setError(e.message)
+    } finally {
+      stopLoad()
+      pendingRef.current = false
+    }
   }
 
   // ── STEP 2 → 3 : Confirm redemption ───────────────────────────────────────
