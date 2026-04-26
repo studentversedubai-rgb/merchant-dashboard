@@ -3,54 +3,73 @@ import { DollarSign, Info } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Card, CardContent } from '@/components/ui/card'
 
 /**
  * AmountStep — merchant enters the total bill amount.
- *
- * IMPORTANT: The preview below is a local estimate for the merchant's
- * reference only. The actual discount is ALWAYS calculated server-side
- * by POST /merchant/confirm. We never send or trust the local estimate.
+ * Preview is a local estimate only. Actual discount is calculated server-side.
  */
 export default function AmountStep({ entitlement, onConfirm, onBack, loading, error }) {
-    const [amount, setAmount] = useState('')
+    const [amount, setAmount]       = useState('')
     const [confirmed, setConfirmed] = useState(false)
 
     useEffect(() => {
         if (!loading) setConfirmed(false)
     }, [loading])
 
-    // ── Local preview (estimate only — not sent to API) ─────────────────────
     const discountPct = entitlement?.discount_percentage || 0
-    const total = parseFloat(amount) || 0
+    const total       = parseFloat(amount) || 0
     const estDiscount = +(total * (discountPct / 100)).toFixed(2)
-    const estFinal = +(total - estDiscount).toFixed(2)
+    const estFinal    = +(total - estDiscount).toFixed(2)
 
     const handleSubmit = (e) => {
         e.preventDefault()
         if (total <= 0 || confirmed || loading) return
-        setConfirmed(true)   // lock button immediately
-        // Only totalAmount is sent — backend calculates the actual discount
+        setConfirmed(true)
         onConfirm({ totalAmount: total })
     }
 
     return (
-        <div className="space-y-6">
-            {/* Discount badge (from validate response, shown for reference) */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+
+            {/* Discount badge */}
             {discountPct > 0 && (
-                <div className="rounded-2xl bg-sv-gold p-5 text-white text-center">
-                    <p className="text-sm font-medium opacity-90 mb-1">Student Discount</p>
-                    <p className="text-5xl font-bold">{discountPct}%</p>
-                    <p className="text-sm opacity-80 mt-1">{entitlement?.offer_title}</p>
+                <div style={{
+                    borderRadius: '20px', padding: '1.25rem', textAlign: 'center',
+                    background: 'transparent',
+                    border: '1px solid rgba(255,184,0,0.25)',
+                }}>
+                    <p style={{ fontSize: '0.65rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.18em', color: 'rgba(255,184,0,0.75)', margin: '0 0 4px' }}>
+                        Student Discount
+                    </p>
+                    <p style={{
+                        fontSize: 'clamp(3rem, 10vw, 4rem)', fontWeight: 900, lineHeight: 1,
+                        letterSpacing: '-0.04em', margin: '0 0 4px',
+                        background: 'linear-gradient(90deg, #FFB800, #FF9100)',
+                        WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+                    }}>
+                        {discountPct}%
+                    </p>
+                    <p style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.35)', margin: 0 }}>
+                        {entitlement?.offer_title}
+                    </p>
                 </div>
             )}
 
             {/* Amount form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-2">
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     <Label htmlFor="amount">Bill Amount (AED)</Label>
-                    <div className="relative">
-                        <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                    {/* Dirham logo sits inside the fancy input wrapper */}
+                    <div style={{ position: 'relative' }}>
+                        <img 
+                            src="/Dirham logo.svg" 
+                            alt="AED"
+                            style={{
+                                position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)',
+                                width: 18, height: 18, opacity: 0.5, zIndex: 10,
+                                pointerEvents: 'none',
+                            }} 
+                        />
                         <Input
                             id="amount"
                             type="number"
@@ -60,67 +79,73 @@ export default function AmountStep({ entitlement, onConfirm, onBack, loading, er
                             placeholder="0.00"
                             value={amount}
                             onChange={e => { setAmount(e.target.value); setConfirmed(false) }}
-                            className="pl-10 text-xl font-bold text-center"
+                            style={{ paddingLeft: 36, textAlign: 'center', fontSize: '1.4rem', fontWeight: 700, letterSpacing: '-0.02em' }}
                             disabled={loading || confirmed}
                             autoFocus
                         />
                     </div>
                 </div>
 
-                {/* Local estimate preview */}
+                {/* Estimate preview */}
                 {total > 0 && discountPct > 0 && (
-                    <Card className="border-gray-100">
-                        <CardContent className="pt-4 pb-4 space-y-2">
-                            <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-1">
-                                <Info className="w-3.5 h-3.5" />
-                                <span>Estimate — actual discount confirmed by server</span>
+                    <div className="sv-glass" style={{ padding: '1rem 1.25rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: '0.75rem' }}>
+                            <Info style={{ width: 13, height: 13, color: 'rgba(255,255,255,0.25)' }} />
+                            <span style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.25)' }}>
+                                Estimate — actual discount confirmed by server
+                            </span>
+                        </div>
+                        {[
+                            { label: 'Original Amount', value: `AED ${total.toFixed(2)}`, color: 'rgba(255,255,255,0.65)' },
+                            { label: `Discount (${discountPct}%)`, value: `− AED ${estDiscount.toFixed(2)}`, color: '#FFB800' },
+                        ].map(({ label, value, color }) => (
+                            <div key={label} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem', marginBottom: 6 }}>
+                                <span style={{ color: 'rgba(255,255,255,0.5)' }}>{label}</span>
+                                <span style={{ color, fontWeight: 600 }}>{value}</span>
                             </div>
-                            <div className="flex justify-between text-sm text-gray-600">
-                                <span>Original Amount</span>
-                                <span>AED {total.toFixed(2)}</span>
-                            </div>
-                            <div className="flex justify-between text-sm text-sv-gold font-semibold">
-                                <span>Discount ({discountPct}%)</span>
-                                <span>− AED {estDiscount.toFixed(2)}</span>
-                            </div>
-                            <div className="h-px bg-gray-100" />
-                            <div className="flex justify-between font-bold text-gray-900">
-                                <span>Est. Customer Pays</span>
-                                <span className="text-sv-purple text-lg">AED {estFinal.toFixed(2)}</span>
-                            </div>
-                        </CardContent>
-                    </Card>
+                        ))}
+                        <div style={{ height: 1, background: 'rgba(255,255,255,0.07)', margin: '8px 0' }} />
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'rgba(255,255,255,0.75)' }}>Est. Customer Pays</span>
+                            <span style={{
+                                fontSize: '1.1rem', fontWeight: 700,
+                                color: '#2962FF',
+                            }}>
+                                AED {estFinal.toFixed(2)}
+                            </span>
+                        </div>
+                    </div>
                 )}
 
-                {error && (
-                    <Card className="border-red-200 bg-red-50">
-                        <CardContent className="pt-3 pb-3">
-                            <p className="text-sm text-red-600 text-center">{error}</p>
-                        </CardContent>
-                    </Card>
-                )}
+                {error && <ErrorBanner message={error} />}
 
-                <Button
+                <button
                     type="submit"
-                    variant="gold"
-                    size="lg"
-                    className="w-full"
+                    className={`sv-animated-btn${total > 0 && !loading && !confirmed ? ' ready' : ''}`}
                     disabled={total <= 0 || loading || confirmed}
                 >
-                    {loading ? 'Processing…' : confirmed ? 'Submitting…' : 'Confirm Redemption'}
-                </Button>
+                    <svg viewBox="0 0 24 24" className="arr-2" xmlns="http://www.w3.org/2000/svg"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" /></svg>
+                    <span className="text">{loading ? 'Processing…' : confirmed ? 'Submitting…' : 'Confirm Redemption'}</span>
+                    <span className="circle" />
+                    <svg viewBox="0 0 24 24" className="arr-1" xmlns="http://www.w3.org/2000/svg"><path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z" /></svg>
+                </button>
 
-                <Button
-                    type="button"
-                    variant="ghost"
-                    size="lg"
-                    className="w-full text-gray-500"
-                    onClick={onBack}
-                    disabled={loading || confirmed}
-                >
+                <Button type="button" variant="ghost" size="lg" className="w-full" onClick={onBack} disabled={loading || confirmed}>
                     ← Back
                 </Button>
             </form>
+        </div>
+    )
+}
+
+function ErrorBanner({ message }) {
+    return (
+        <div style={{
+            borderRadius: '14px', padding: '0.75rem 1rem', textAlign: 'center',
+            background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)',
+            backdropFilter: 'blur(16px)',
+        }}>
+            <p style={{ fontSize: '0.875rem', fontWeight: 500, color: '#ef4444', margin: 0 }}>{message}</p>
         </div>
     )
 }

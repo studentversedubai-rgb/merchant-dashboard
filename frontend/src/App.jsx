@@ -9,40 +9,87 @@ import VoidStep from '@/components/steps/VoidStep'
 const logoWithName = '/assets/svlogoname.png'
 
 // ── Steps ────────────────────────────────────────────────────────────────────
-const STEP_SCAN = 0
-const STEP_PIN = 1
-const STEP_AMOUNT = 2
+const STEP_SCAN    = 0
+const STEP_PIN     = 1
+const STEP_AMOUNT  = 2
 const STEP_SUCCESS = 3
-const STEP_VOID = 4   // accessible from success via "Void" button
+const STEP_VOID    = 4
 
 const STEP_LABELS = ['Scan', 'PIN', 'Amount', 'Done']
 
 // ── Step Progress Indicator ───────────────────────────────────────────────────
 function StepIndicator({ current }) {
   return (
-    <div className="flex items-center justify-center gap-2 mb-6">
+    <div className="flex items-center justify-center gap-0 mb-10">
       {STEP_LABELS.map((label, i) => {
-        const done = i < current
+        const done   = i < current
         const active = i === current
+        const upcoming = i > current
+
         return (
-          <div key={label} className="flex items-center gap-2">
-            <div className="flex flex-col items-center gap-1">
+          <div key={label} className="flex items-center">
+            <div className="flex flex-col items-center gap-2" style={{ width: 80 }}>
               <div
-                className={[
-                  'w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-colors',
-                  done ? 'bg-sv-gold border-sv-gold text-white'
-                    : active ? 'bg-sv-purple border-sv-purple text-white'
-                      : 'bg-white border-gray-200 text-gray-400',
-                ].join(' ')}
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '0.85rem',
+                  fontWeight: 800,
+                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                  position: 'relative',
+                  zIndex: 2,
+                  background: done
+                    ? 'linear-gradient(135deg, #7B2CBF, #2962FF)'
+                    : active
+                    ? 'linear-gradient(135deg, #2962FF, #7B2CBF)'
+                    : 'rgba(255, 255, 255, 0.02)',
+                  border: upcoming
+                    ? '1.5px solid rgba(255, 255, 255, 0.12)'
+                    : 'none',
+                  boxShadow: done
+                    ? '0 0 20px rgba(123, 44, 191, 0.35)'
+                    : active
+                    ? '0 0 24px rgba(41, 98, 255, 0.45)'
+                    : 'none',
+                  animation: active ? 'sv-pulseGlow 2.4s ease-in-out infinite' : 'none',
+                }}
               >
-                {done ? '✓' : i + 1}
+                <span style={{ color: upcoming ? 'rgba(255, 255, 255, 0.25)' : '#fff' }}>
+                  {done ? (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  ) : i + 1}
+                </span>
               </div>
-              <span className={`text-xs font-medium ${active ? 'text-sv-purple' : done ? 'text-sv-gold' : 'text-gray-400'}`}>
+              <span style={{
+                fontSize: '0.6rem',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+                color: active ? '#ffffff' : done ? 'rgba(255, 255, 255, 0.6)' : 'rgba(255, 255, 255, 0.2)',
+                transition: 'color 0.4s ease',
+              }}>
                 {label}
               </span>
             </div>
+            
             {i < STEP_LABELS.length - 1 && (
-              <div className={`w-8 h-0.5 mb-4 ${done ? 'bg-sv-gold' : 'bg-gray-200'}`} />
+              <div style={{
+                width: 40,
+                height: 2,
+                margin: '0 -20px 24px -20px',
+                background: done
+                  ? 'linear-gradient(90deg, #7B2CBF, #2962FF)'
+                  : 'rgba(255, 255, 255, 0.08)',
+                boxShadow: done ? '0 0 12px rgba(41, 98, 255, 0.35)' : 'none',
+                transition: 'all 0.4s ease',
+                zIndex: 1,
+              }} />
             )}
           </div>
         )
@@ -54,11 +101,23 @@ function StepIndicator({ current }) {
 // ── Service Unavailable banner ────────────────────────────────────────────────
 function ServiceUnavailableBanner() {
   return (
-    <div className="mb-4 rounded-xl bg-red-50 border border-red-200 px-4 py-3 flex gap-2 items-start">
-      <span className="text-red-500 text-lg leading-none mt-0.5">⚠</span>
+    <div style={{
+      marginBottom: '1.5rem',
+      borderRadius: '16px',
+      padding: '0.75rem 1rem',
+      display: 'flex', gap: '0.75rem', alignItems: 'flex-start',
+      background: 'rgba(239,68,68,0.08)',
+      border: '1px solid rgba(239,68,68,0.25)',
+      backdropFilter: 'blur(16px)',
+    }}>
+      <span style={{ color: '#ef4444', fontSize: '1rem', lineHeight: 1, marginTop: 2 }}>⚠</span>
       <div>
-        <p className="text-sm font-semibold text-red-700">Service temporarily unavailable</p>
-        <p className="text-xs text-red-500 mt-0.5">Backend is unreachable. Please refresh and try again.</p>
+        <p style={{ fontSize: '0.875rem', fontWeight: 600, color: '#ef4444', margin: 0 }}>
+          Service temporarily unavailable
+        </p>
+        <p style={{ fontSize: '0.75rem', color: 'rgba(239,68,68,0.65)', margin: '2px 0 0' }}>
+          Backend is unreachable. Please refresh and try again.
+        </p>
       </div>
     </div>
   )
@@ -67,10 +126,32 @@ function ServiceUnavailableBanner() {
 // ── Loading Overlay ───────────────────────────────────────────────────────────
 function LoadingOverlay({ message = 'Please wait…' }) {
   return (
-    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-      <div className="bg-white rounded-2xl p-6 flex flex-col items-center gap-3 shadow-xl">
-        <div className="w-10 h-10 border-4 border-sv-purple/20 border-t-sv-purple rounded-full animate-spin" />
-        <p className="text-sm font-medium text-gray-700">{message}</p>
+    <div style={{
+      position: 'fixed', inset: 0,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      zIndex: 200,
+      background: 'rgba(8,12,31,0.85)',
+      backdropFilter: 'blur(16px)',
+    }}>
+      <div style={{
+        borderRadius: '20px',
+        padding: '2rem 2.5rem',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem',
+        background: 'rgba(8,12,31,0.8)',
+        border: '1px solid rgba(255,255,255,0.12)',
+        backdropFilter: 'blur(40px) saturate(200%)',
+        boxShadow: '0 8px 32px rgba(31,38,135,0.25), inset 0 1px 2px rgba(255,255,255,0.1)',
+      }}>
+        <div style={{
+          width: 40, height: 40,
+          borderRadius: '50%',
+          border: '3px solid rgba(41,98,255,0.2)',
+          borderTopColor: '#2962FF',
+          animation: 'sv-spin 0.8s linear infinite',
+        }} />
+        <p style={{ fontSize: '0.875rem', fontWeight: 600, color: 'rgba(255,255,255,0.65)', margin: 0 }}>
+          {message}
+        </p>
       </div>
     </div>
   )
@@ -78,40 +159,28 @@ function LoadingOverlay({ message = 'Please wait…' }) {
 
 // ── Main App ──────────────────────────────────────────────────────────────────
 export default function App() {
-  // ── State machine ──────────────────────────────────────────────────────────
-  const [step, setStep] = useState(STEP_SCAN)
-
-  // Validate payload
-  const [proofToken, setProofToken] = useState(null)   // raw proof_token from QR
-  const [entitlement, setEntitlement] = useState(null)   // validate response data
-
-  // Confirm payload
+  const [step, setStep]               = useState(STEP_SCAN)
+  const [proofToken, setProofToken]   = useState(null)
+  const [entitlement, setEntitlement] = useState(null)
   const [merchantPin, setMerchantPin] = useState(null)
-  const [result, setResult] = useState(null)   // confirm response data
-  const [redemptionId, setRedemptionId] = useState(null)   // for void
-
-  // UI state
-  const [loading, setLoading] = useState(false)
-  const [loadingMsg, setLoadingMsg] = useState('Please wait…')
-  const [error, setError] = useState(null)
-  const [serviceOk, setServiceOk] = useState(true)   // health check
-
-  // Guard: prevent duplicate API calls
+  const [result, setResult]           = useState(null)
+  const [redemptionId, setRedemptionId] = useState(null)
+  const [loading, setLoading]         = useState(false)
+  const [loadingMsg, setLoadingMsg]   = useState('Please wait…')
+  const [error, setError]             = useState(null)
+  const [serviceOk, setServiceOk]     = useState(true)
   const pendingRef = useRef(false)
 
-  // ── Health check on mount ──────────────────────────────────────────────────
   useEffect(() => {
     api.healthCheck()
       .then(ok => setServiceOk(ok))
       .catch(() => setServiceOk(false))
   }, [])
 
-  // ── Helpers ────────────────────────────────────────────────────────────────
-  const clearError = () => setError(null)
-  const startLoad = (msg) => { setLoadingMsg(msg); setLoading(true) }
-  const stopLoad = () => setLoading(false)
+  const clearError  = () => setError(null)
+  const startLoad   = (msg) => { setLoadingMsg(msg); setLoading(true) }
+  const stopLoad    = () => setLoading(false)
 
-  // ── Full reset → back to scan step ────────────────────────────────────────
   const handleReset = () => {
     setStep(STEP_SCAN)
     setProofToken(null)
@@ -123,15 +192,13 @@ export default function App() {
     pendingRef.current = false
   }
 
-  // ── STEP 0 → 1 : Validate QR token ────────────────────────────────────────
   const handleScanned = async (rawToken) => {
-    if (pendingRef.current) return  // prevent duplicate calls
+    if (pendingRef.current) return
     pendingRef.current = true
     clearError()
     startLoad('Validating QR code…')
     try {
       const data = await api.validateEntitlement(rawToken)
-      // Parse discount_value ("50%") into numeric for preview display in AmountStep
       const discountPct = data.discount_value
         ? parseFloat(data.discount_value.replace('%', ''))
         : null
@@ -141,17 +208,12 @@ export default function App() {
       pendingRef.current = false
     } catch (e) {
       setError(e.message)
-      // Auto-reset scanner after 2 seconds on failure
-      setTimeout(() => {
-        setError(null)
-        pendingRef.current = false
-      }, 2000)
+      setTimeout(() => { setError(null); pendingRef.current = false }, 2000)
     } finally {
       stopLoad()
     }
   }
 
-  // ── STEP 1 → 2 : Verify PIN ───────────────────────────────────────────────
   const handlePinVerified = async (pin) => {
     if (pendingRef.current || !proofToken) return
     pendingRef.current = true
@@ -169,8 +231,6 @@ export default function App() {
     }
   }
 
-  // ── STEP 2 → 3 : Confirm redemption ───────────────────────────────────────
-  // Discount is NEVER calculated here — backend owns that.
   const handleConfirm = async ({ totalAmount }) => {
     if (pendingRef.current || !proofToken) return
     if (!totalAmount || parseFloat(totalAmount) <= 0) {
@@ -184,12 +244,10 @@ export default function App() {
       const data = await api.confirmRedemption({ proofToken, merchantPin, totalAmount })
       setResult(data)
       setRedemptionId(data.redemption_id || null)
-      // Clear proof_token — single use; cannot resubmit
       setProofToken(null)
       setStep(STEP_SUCCESS)
     } catch (e) {
       setError(e.message)
-      // If token expired or already used, force back to scan after 3s
       const msg = (e.message || '').toLowerCase()
       if (msg.includes('expired') || msg.includes('already been redeemed') || msg.includes('not redeemable')) {
         setTimeout(handleReset, 3000)
@@ -200,7 +258,6 @@ export default function App() {
     }
   }
 
-  // ── STEP 4 : Void ──────────────────────────────────────────────────────────
   const handleVoid = async ({ pin, reason }) => {
     if (pendingRef.current || !redemptionId) return
     pendingRef.current = true
@@ -208,7 +265,6 @@ export default function App() {
     startLoad('Processing void…')
     try {
       await api.voidRedemption({ redemptionId, merchantPin: pin, reason })
-      // Success: full reset after void
       handleReset()
     } catch (e) {
       setError(e.message)
@@ -218,103 +274,178 @@ export default function App() {
     }
   }
 
-  // ── Titles ─────────────────────────────────────────────────────────────────
   const titles = {
-    [STEP_SCAN]: { title: 'Scan Student QR', sub: 'Point camera at the student\'s QR code' },
-    [STEP_PIN]: { title: 'Enter Merchant PIN', sub: 'Verify your identity with your PIN' },
-    [STEP_AMOUNT]: { title: 'Enter Bill Amount', sub: 'Enter the total bill before discount' },
-    [STEP_SUCCESS]: { title: '', sub: '' },
-    [STEP_VOID]: { title: 'Void Redemption', sub: 'Cancel this redemption within the 2-hour window' },
+    [STEP_SCAN]:    { title: 'Scan Student QR',    sub: "Point camera at the student's QR code" },
+    [STEP_PIN]:     { title: 'Enter Merchant PIN',  sub: 'Verify your identity with your PIN' },
+    [STEP_AMOUNT]:  { title: 'Enter Bill Amount',   sub: 'Enter the total bill before discount' },
+    [STEP_SUCCESS]: { title: '',                    sub: '' },
+    [STEP_VOID]:    { title: 'Void Redemption',     sub: 'Cancel this redemption within the 2-hour window' },
   }
 
   const showProgressBar = step < STEP_SUCCESS
 
+  // ── DEV SKIP: cycle through steps without real data ───────────────────────
+  const DEV_MOCK = {
+    entitlement: { offer_title: 'Dev Mock Offer', discount_percentage: 20, discount_value: '20%', merchant_name: 'Test Merchant', student_name: 'Test Student' },
+    result: { total_bill: 100, discount_amount: 20, final_amount: 80, savings: 20, redemption_id: 'dev-mock-1234-abcd', redeemed_at: new Date().toISOString() },
+  }
+  const handleDevSkip = () => {
+    if (step === STEP_SCAN) { setEntitlement(DEV_MOCK.entitlement); setProofToken('dev-token'); setStep(STEP_PIN) }
+    else if (step === STEP_PIN) { setMerchantPin('0000'); setStep(STEP_AMOUNT) }
+    else if (step === STEP_AMOUNT) { setResult(DEV_MOCK.result); setRedemptionId('dev-mock-1234-abcd'); setStep(STEP_SUCCESS) }
+    else if (step === STEP_SUCCESS) { setStep(STEP_VOID) }
+    else { handleReset() }
+  }
+  const devSkipLabel = ['→ PIN', '→ Amount', '→ Success', '→ Void', '↺ Reset'][step] || '→'
+
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Header */}
-      <header className="bg-sv-purple shadow-md">
-        <div className="max-w-lg mx-auto px-4 py-4 flex flex-col items-center gap-1">
-          <img src={logoWithName} alt="StudentVerse" className="h-10 object-contain" />
-          <span className="text-white/70 text-xs font-medium tracking-widest uppercase">
-            Merchant Validator
-          </span>
-        </div>
-      </header>
+    <>
+      {/* ── Galaxy starfield layer ── */}
+      <div id="sv-stars" aria-hidden="true" />
 
-      {/* Main */}
-      <main className="flex-1 max-w-lg mx-auto w-full px-4 py-6">
-        {/* Health check banner */}
-        {!serviceOk && <ServiceUnavailableBanner />}
 
-        {/* Progress indicator (scan / pin / amount steps only) */}
-        {showProgressBar && <StepIndicator current={step} />}
 
-        {/* Step heading */}
-        {titles[step]?.title && (
-          <div className="mb-6">
-            <h1 className="text-xl font-bold text-gray-900">{titles[step].title}</h1>
-            {titles[step].sub && (
-              <p className="text-sm text-gray-500 mt-0.5">{titles[step].sub}</p>
-            )}
+      {/* ── Page shell ── */}
+      <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 1 }}>
+
+        {/* Header */}
+        <header style={{
+          background: 'rgba(0,0,0,0.98)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: '1px solid rgba(255,255,255,0.1)',
+          position: 'sticky', top: 0, zIndex: 100,
+        }}>
+          <div style={{ maxWidth: 520, margin: '0 auto', padding: '1rem 1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4 }}>
+            <img src={logoWithName} alt="StudentVerse" style={{ height: 40, objectFit: 'contain' }} />
+            <span style={{
+              fontSize: '0.65rem', fontWeight: 600,
+              textTransform: 'uppercase', letterSpacing: '0.22em',
+              color: 'rgba(255,255,255,0.35)',
+            }}>
+              Merchant Validator
+            </span>
           </div>
-        )}
+        </header>
 
-        {/* Loading overlay */}
-        {loading && <LoadingOverlay message={loadingMsg} />}
+        {/* Main — top-aligned, NOT vertically centered */}
+        <main style={{
+          flex: 1,
+          maxWidth: 520,
+          width: '100%',
+          margin: '0 auto',
+          padding: '2.5rem 1.25rem 3rem',
+          position: 'relative',
+          zIndex: 1,
+        }}>
+          {!serviceOk && <ServiceUnavailableBanner />}
 
-        {/* Steps */}
-        {step === STEP_SCAN && (
-          <ScanStep
-            onScanned={handleScanned}
-            error={error}
-            disabled={loading || !serviceOk}
-          />
-        )}
+          {showProgressBar && <StepIndicator current={step} />}
 
-        {step === STEP_PIN && (
-          <PinStep
-            entitlement={entitlement}
-            onVerify={handlePinVerified}
-            onBack={handleReset}
-            loading={loading}
-            error={error}
-          />
-        )}
+          {titles[step]?.title && (
+            <div style={{ marginBottom: '1.5rem' }}>
+              <h1 style={{
+                fontSize: 'clamp(1.4rem, 4vw, 1.75rem)',
+                fontWeight: 700,
+                color: '#ffffff',
+                letterSpacing: '-0.03em',
+                margin: 0,
+              }}>
+                {titles[step].title}
+              </h1>
+              {titles[step].sub && (
+                <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.45)', margin: '4px 0 0' }}>
+                  {titles[step].sub}
+                </p>
+              )}
+            </div>
+          )}
 
-        {step === STEP_AMOUNT && (
-          <AmountStep
-            entitlement={entitlement}
-            onConfirm={handleConfirm}
-            onBack={() => { clearError(); pendingRef.current = false; setStep(STEP_PIN) }}
-            loading={loading}
-            error={error}
-          />
-        )}
+          {loading && <LoadingOverlay message={loadingMsg} />}
 
-        {step === STEP_SUCCESS && (
-          <SuccessStep
-            result={result}
-            redemptionId={redemptionId}
-            onReset={handleReset}
-            onVoid={() => { clearError(); setStep(STEP_VOID) }}
-          />
-        )}
+          {step === STEP_SCAN && (
+            <ScanStep onScanned={handleScanned} error={error} disabled={loading || !serviceOk} />
+          )}
+          {step === STEP_PIN && (
+            <PinStep entitlement={entitlement} onVerify={handlePinVerified} onBack={handleReset} loading={loading} error={error} />
+          )}
+          {step === STEP_AMOUNT && (
+            <AmountStep entitlement={entitlement} onConfirm={handleConfirm} onBack={() => { clearError(); pendingRef.current = false; setStep(STEP_PIN) }} loading={loading} error={error} />
+          )}
+          {step === STEP_SUCCESS && (
+            <SuccessStep result={result} redemptionId={redemptionId} onReset={handleReset} onVoid={() => { clearError(); setStep(STEP_VOID) }} />
+          )}
+          {step === STEP_VOID && (
+            <VoidStep redemptionId={redemptionId} onVoid={handleVoid} onBack={() => { clearError(); setStep(STEP_SUCCESS) }} loading={loading} error={error} />
+          )}
+        </main>
 
-        {step === STEP_VOID && (
-          <VoidStep
-            redemptionId={redemptionId}
-            onVoid={handleVoid}
-            onBack={() => { clearError(); setStep(STEP_SUCCESS) }}
-            loading={loading}
-            error={error}
-          />
-        )}
-      </main>
+        {/* Footer */}
+        <footer style={{
+          padding: '1rem',
+          textAlign: 'center',
+          fontSize: '0.8rem',
+          color: 'rgba(255,255,255,0.2)',
+          borderTop: '1px solid rgba(255,255,255,0.07)',
+          position: 'relative', zIndex: 1,
+        }}>
+          © {new Date().getFullYear()} StudentVerse · Merchant Portal
+        </footer>
+      </div>
 
-      {/* Footer */}
-      <footer className="py-4 text-center text-xs text-gray-400 border-t border-gray-100">
-        © {new Date().getFullYear()} StudentVerse · Merchant Portal
-      </footer>
-    </div>
+      {/* ── DEV BACK BUTTON (remove before production) ── */}
+      {step > STEP_SCAN && (
+        <button
+          onClick={() => setStep(s => s - 1)}
+          title="Dev: go to previous step"
+          style={{
+            position: 'fixed', bottom: 24, left: 24, zIndex: 999,
+            background: 'rgba(255,255,255,0.06)',
+            border: '1px solid rgba(255,255,255,0.2)',
+            borderRadius: 50,
+            color: 'rgba(255,255,255,0.5)',
+            fontSize: '0.72rem',
+            fontWeight: 700,
+            fontFamily: 'Outfit, sans-serif',
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            padding: '0.5rem 1rem',
+            cursor: 'pointer',
+            backdropFilter: 'blur(12px)',
+            transition: 'all 0.2s ease',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = '#fff' }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)' }}
+        >
+          DEV ←
+        </button>
+      )}
+
+      {/* ── DEV SKIP BUTTON (remove before production) ── */}
+      <button
+        onClick={handleDevSkip}
+        title="Dev: skip to next step"
+        style={{
+          position: 'fixed', bottom: 24, right: 24, zIndex: 999,
+          background: 'rgba(255,184,0,0.15)',
+          border: '1px solid rgba(255,184,0,0.4)',
+          borderRadius: 50,
+          color: '#FFB800',
+          fontSize: '0.72rem',
+          fontWeight: 700,
+          fontFamily: 'Outfit, sans-serif',
+          textTransform: 'uppercase',
+          letterSpacing: '0.1em',
+          padding: '0.5rem 1rem',
+          cursor: 'pointer',
+          backdropFilter: 'blur(12px)',
+          transition: 'all 0.2s ease',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,184,0,0.28)'; e.currentTarget.style.boxShadow = '0 0 16px rgba(255,184,0,0.3)' }}
+        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,184,0,0.15)'; e.currentTarget.style.boxShadow = 'none' }}
+      >
+        DEV {devSkipLabel}
+      </button>
+    </>
   )
 }

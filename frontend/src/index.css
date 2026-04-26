@@ -1,14 +1,866 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Base ──────────────────────────────────────────────────────────────────── */
 @layer base {
-  * {
-    box-sizing: border-box;
-  }
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
 
   body {
-    @apply bg-gray-50 text-gray-900 antialiased;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: 'Outfit', Helvetica, Arial, sans-serif;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
   }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #000000; }
+  ::-webkit-scrollbar-thumb { background: #2962FF; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #00F0FF; }
+}
+
+/* ─── Galaxy / Starfield ────────────────────────────────────────────────────── */
+/* CSS-generated star dots scattered across the page background */
+#sv-stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+#sv-stars::before,
+#sv-stars::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 5%   8%,  rgba(255,255,255,0.80) 0%, transparent 100%),
+    radial-gradient(1px 1px at 12%  22%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(1px 1px at 18%  45%, rgba(255,255,255,0.70) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25%  12%, rgba(255,255,255,0.60) 0%, transparent 100%),
+    radial-gradient(1px 1px at 32%  67%, rgba(255,255,255,0.50) 0%, transparent 100%),
+    radial-gradient(1px 1px at 38%  33%, rgba(255,255,255,0.75) 0%, transparent 100%),
+    radial-gradient(1px 1px at 44%  78%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 51%  19%, rgba(255,255,255,0.65) 0%, transparent 100%),
+    radial-gradient(1px 1px at 57%  55%, rgba(255,255,255,0.80) 0%, transparent 100%),
+    radial-gradient(1px 1px at 63%  88%, rgba(255,255,255,0.50) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70%  42%, rgba(255,255,255,0.70) 0%, transparent 100%),
+    radial-gradient(1px 1px at 76%  7%,  rgba(255,255,255,0.60) 0%, transparent 100%),
+    radial-gradient(1px 1px at 82%  63%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88%  28%, rgba(255,255,255,0.75) 0%, transparent 100%),
+    radial-gradient(1px 1px at 94%  82%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 97%  15%, rgba(255,255,255,0.65) 0%, transparent 100%),
+    radial-gradient(2px 2px at 9%   91%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(2px 2px at 21%  58%, rgba(255,255,255,0.30) 0%, transparent 100%),
+    radial-gradient(2px 2px at 47%  3%,  rgba(255,255,255,0.40) 0%, transparent 100%),
+    radial-gradient(2px 2px at 73%  74%, rgba(255,255,255,0.35) 0%, transparent 100%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+#sv-stars::after {
+  background-image:
+    radial-gradient(1px 1px at 3%   35%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(1px 1px at 8%   72%, rgba(255,255,255,0.70) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15%  5%,  rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 29%  48%, rgba(255,255,255,0.80) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35%  90%, rgba(255,255,255,0.50) 0%, transparent 100%),
+    radial-gradient(1px 1px at 41%  25%, rgba(255,255,255,0.65) 0%, transparent 100%),
+    radial-gradient(1px 1px at 54%  61%, rgba(255,255,255,0.75) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60%  14%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(1px 1px at 66%  38%, rgba(255,255,255,0.60) 0%, transparent 100%),
+    radial-gradient(1px 1px at 79%  95%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85%  52%, rgba(255,255,255,0.70) 0%, transparent 100%),
+    radial-gradient(1px 1px at 91%  77%, rgba(255,255,255,0.50) 0%, transparent 100%),
+    radial-gradient(1px 1px at 96%  40%, rgba(255,255,255,0.65) 0%, transparent 100%),
+    radial-gradient(2px 2px at 23%  83%, rgba(41,98,255,0.40)   0%, transparent 100%),
+    radial-gradient(2px 2px at 67%  27%, rgba(0,240,255,0.35)   0%, transparent 100%),
+    radial-gradient(2px 2px at 88%  10%, rgba(123,44,191,0.40)  0%, transparent 100%);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.9;
+}
+
+/* ─── Components ────────────────────────────────────────────────────────────── */
+@layer components {
+
+  /* Glass card — matches .glass from design-tokens.css */
+  .sv-glass {
+    background: rgba(3, 4, 13, 0.65);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    box-shadow:
+      0 8px 32px 0 rgba(0, 0, 0, 0.4),
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  /* Strong glass — for hero/featured cards */
+  .sv-glass-strong {
+    background: rgba(3, 4, 13, 0.80);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    box-shadow:
+      0 8px 32px 0 rgba(0, 0, 0, 0.5),
+      inset 0 1px 2px 0 rgba(255, 255, 255, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.04);
+  }
+
+  /* Bento card with traveling light border */
+  .sv-bento-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sv-bento-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 1.5rem;
+    padding: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      transparent 45%,
+      #00F0FF 50%,
+      transparent 55%,
+      transparent 100%
+    );
+    background-size: 300% 100%;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    animation: sv-travelingLight 3s linear infinite;
+    pointer-events: none;
+  }
+
+  .sv-bento-card-azure::before { background-image: linear-gradient(90deg, transparent 0%, transparent 45%, #2962FF 50%, transparent 55%, transparent 100%); background-size: 300% 100%; }
+  .sv-bento-card-gold::before  { background-image: linear-gradient(90deg, transparent 0%, transparent 45%, #FFB800 50%, transparent 55%, transparent 100%); background-size: 300% 100%; }
+
+  /* Gradient text */
+  .sv-gradient-text {
+    background: linear-gradient(90deg, #2962FF 0%, #00F0FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .sv-gradient-text-gold {
+    background: linear-gradient(90deg, #FFB800 0%, #FF9100 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Buttons ── */
+  .sv-btn-primary {
+    background: linear-gradient(90deg, #2962FF, #7B2CBF, #FFB800);
+    background-size: 200% 200%;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 50px;
+    border: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: sv-gradientShift 4s ease-in-out infinite;
+  }
+  .sv-btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(41, 98, 255, 0.4);
+  }
+  .sv-btn-primary:focus-visible { outline: 2px solid #2962FF; outline-offset: 2px; }
+  .sv-btn-primary:disabled { background: #333; color: #888; cursor: not-allowed; transform: none; box-shadow: none; animation: none; }
+
+  .sv-btn-gold {
+    background: linear-gradient(90deg, #FFB800, #FF9100);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 50px;
+    border: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .sv-btn-gold:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(255, 184, 0, 0.45); }
+  .sv-btn-gold:focus-visible { outline: 2px solid #FFB800; outline-offset: 2px; }
+  .sv-btn-gold:disabled { background: #333; color: #888; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  .sv-btn-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .sv-btn-secondary:hover:not(:disabled) { background: rgba(255,255,255,0.15); color: #fff; border-color: rgba(255,255,255,0.5); transform: translateY(-1px); }
+  .sv-btn-secondary:focus-visible { outline: 2px solid #2962FF; outline-offset: 2px; }
+  .sv-btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .sv-btn-ghost {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.4);
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .sv-btn-ghost:hover:not(:disabled) { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.06); }
+  .sv-btn-ghost:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  .sv-btn-danger {
+    background: linear-gradient(90deg, #ef4444, #dc2626);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 50px;
+    border: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .sv-btn-danger:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4); }
+  .sv-btn-danger:focus-visible { outline: 2px solid #ef4444; outline-offset: 2px; }
+  .sv-btn-danger:disabled { background: #333; color: #888; cursor: not-allowed; }
+
+  /* ── Input ── */
+  .sv-input {
+    width: 100%;
+    border-radius: 10px;
+    outline: 2px solid #7B2CBF;
+    outline-offset: 3px;
+    border: 0;
+    background-color: #111111;
+    color: #ffffff;
+    font-family: 'Outfit', Helvetica, Arial, sans-serif;
+    font-size: 0.95rem;
+    padding: 12px 1rem;
+    transition: 0.25s;
+  }
+  .sv-input::placeholder { color: rgba(255, 255, 255, 0.3); }
+  .sv-input:focus {
+    outline-offset: 5px;
+    background-color: #1a1a1a;
+  }
+  .sv-input:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ── Label ── */
+  .sv-label {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    display: block;
+  }
+
+  /* ── Status badges ── */
+  .sv-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-family: monospace;
+  }
+  .sv-badge-active    { background: rgba(0,240,255,0.15);   color: #00F0FF; border: 1px solid #00F0FF; }
+  .sv-badge-success   { background: rgba(34,197,94,0.15);   color: #22c55e; border: 1px solid #22c55e; }
+  .sv-badge-warning   { background: rgba(255,184,0,0.15);   color: #FFB800; border: 1px solid #FFB800; }
+  .sv-badge-error     { background: rgba(239,68,68,0.15);   color: #ef4444; border: 1px solid #ef4444; }
+  .sv-badge-loading   { background: rgba(251,191,36,0.2);   color: #fbbf24; border: 1px solid #fbbf24; }
+  .sv-badge-encrypted { background: rgba(239,68,68,0.2);    color: #ef4444; border: 1px solid #ef4444; animation: sv-statusPulse 2s ease-in-out infinite; }
+
+  /* ── Glow utilities ── */
+  /* ── Animated arrow button ── */
+  .sv-animated-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 16px 36px;
+    border: 4px solid transparent;
+    font-size: 16px;
+    background-color: transparent;
+    border-radius: 100px;
+    font-weight: 600;
+    color: #7B2CBF;
+    box-shadow: 0 0 0 2px #7B2CBF;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    width: 100%;
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .sv-animated-btn svg {
+    position: absolute;
+    width: 24px;
+    fill: #7B2CBF;
+    z-index: 9;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .sv-animated-btn .arr-1 { right: 16px; }
+  .sv-animated-btn .arr-2 { left: -25%; }
+  .sv-animated-btn .circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background-color: #7B2CBF;
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .sv-animated-btn .text {
+    position: relative;
+    z-index: 1;
+    transform: translateX(-12px);
+    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  /* "ready" class fires when requirement is met — replaces hover */
+  .sv-animated-btn.ready {
+    box-shadow: 0 0 0 12px transparent;
+    color: #ffffff;
+    border-radius: 12px;
+  }
+  .sv-animated-btn.ready .arr-1 { right: -25%; }
+  .sv-animated-btn.ready .arr-2 { left: 16px; }
+  .sv-animated-btn.ready .text  { transform: translateX(12px); }
+  .sv-animated-btn.ready svg    { fill: #ffffff; }
+  .sv-animated-btn.ready .circle { width: 600px; height: 600px; opacity: 1; }
+  .sv-animated-btn:active { scale: 0.95; box-shadow: 0 0 0 4px #7B2CBF; }
+  .sv-animated-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .sv-btn-next-customer {
+    width: 100%;
+    height: 60px;
+    border: 3px solid #2962FF;
+    border-radius: 45px;
+    transition: all 0.3s;
+    cursor: pointer;
+    background: #2962FF;
+    font-size: 1.5em;
+    font-weight: 550;
+    font-family: 'Outfit', sans-serif;
+    color: white;
+  }
+  .sv-btn-next-customer:hover {
+    background: #1e40af;
+    color: white;
+    font-size: 1.6em;
+  }
+
+  .sv-btn-void {
+    width: 100%;
+    height: 60px;
+    border: 3px solid #ef4444;
+    border-radius: 45px;
+    transition: all 0.3s;
+    cursor: pointer;
+    background: #ef4444;
+    font-size: 1.5em;
+    font-weight: 550;
+    font-family: 'Outfit', sans-serif;
+    color: white;
+  }
+  .sv-btn-void:hover {
+    background: #dc2626;
+    color: white;
+    font-size: 1.6em;
+  }
+  .glow-cyan  { box-shadow: 0 0 20px rgba(0,240,255,0.5); }
+  .glow-gold  { box-shadow: 0 0 20px rgba(255,184,0,0.5); }
+
+  /* ── Fancy corner-key camera button ── */
+  .sv-btn-fancy {
+    background-color: transparent;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-radius: 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    outline: none;
+    overflow: visible;
+    padding: 1.1em 2em;
+    position: relative;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    user-select: none;
+    font-size: 13px;
+    font-family: 'Outfit', sans-serif;
+  }
+  .sv-btn-fancy::before {
+    content: '';
+    width: 1.5625rem;
+    height: 2px;
+    background: rgba(255,255,255,0.5);
+    top: 50%;
+    left: 1.5em;
+    position: absolute;
+    transform: translateY(-50%);
+    transform-origin: center;
+    transition: background 0.3s linear, width 0.3s linear;
+  }
+  .sv-btn-fancy .sv-btn-fancy-text {
+    font-size: 1em;
+    line-height: 1.33em;
+    padding-left: 2em;
+    display: block;
+    text-align: left;
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .sv-btn-fancy .sv-btn-fancy-icon {
+    position: absolute;
+    left: 1.4em;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    flex-shrink: 0;
+  }
+  .sv-btn-fancy .top-key {
+    height: 2px;
+    width: 1.5625rem;
+    top: -2px;
+    left: 0.625rem;
+    position: absolute;
+    background: rgba(255,255,255,0.25);
+    transition: width 0.5s ease-out, left 0.3s ease-out;
+  }
+  .sv-btn-fancy .bottom-key-1 {
+    height: 2px;
+    width: 1.5625rem;
+    right: 1.875rem;
+    bottom: -2px;
+    position: absolute;
+    background: rgba(255,255,255,0.25);
+    transition: width 0.5s ease-out, right 0.3s ease-out;
+  }
+  .sv-btn-fancy .bottom-key-2 {
+    height: 2px;
+    width: 0.625rem;
+    right: 0.625rem;
+    bottom: -2px;
+    position: absolute;
+    background: rgba(255,255,255,0.25);
+    transition: width 0.5s ease-out, right 0.3s ease-out;
+  }
+  .sv-btn-fancy:hover {
+    color: #03040D;
+    background: #ffffff;
+    border-color: #ffffff;
+  }
+  .sv-btn-fancy:hover::before {
+    width: 0;
+    background: #03040D;
+  }
+  .sv-btn-fancy:hover .sv-btn-fancy-text {
+    color: #03040D;
+    padding-left: 1.5em;
+  }
+  .sv-btn-fancy:hover .sv-btn-fancy-icon {
+    opacity: 1;
+    color: #03040D;
+  }
+  .sv-btn-fancy:hover .top-key {
+    left: -2px;
+    width: 0;
+  }
+  .sv-btn-fancy:hover .bottom-key-1,
+  .sv-btn-fancy:hover .bottom-key-2 {
+    right: 0;
+    width: 0;
+  }
+  .sv-btn-fancy:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+}
+
+/* ─── Fancy Input ───────────────────────────────────────────────────────────── */
+/* Animated conic-gradient rotating border with traveling light glow */
+
+.sv-fancy-input-border {
+  --fi-color: rgba(67, 67, 67, 0.2);
+  position: relative;
+  display: flex;
+  border-radius: 8px;
+  background: transparent;
+  width: 100%;
+}
+
+/* Two traveling glow orbs along the border */
+.sv-fancy-input-border::before {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 20px;
+  border-radius: 50%;
+  top: 0%;
+  left: 0%;
+  box-shadow:
+    0px 0px 30px 5px hsl(247, 90%, 65%, 0.5),
+    0px 0px 30px 30px hsl(247, 90%, 25%, 0.5);
+  animation: sv-border-light 16s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.sv-fancy-input-border::after {
+  content: "";
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 40px;
+  height: 20px;
+  border-radius: 50%;
+  box-shadow:
+    0px 0px 30px 5px hsl(310, 90%, 65%, 0.5),
+    0px 0px 30px 30px hsla(310, 91%, 25%, 0.5);
+  animation: sv-border-light 16s linear infinite -8s;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes sv-border-light {
+  0%   { top: 0%;   left: 0%;   animation-timing-function: cubic-bezier(0.19, 0.64, 0.85, 0.36); }
+  48%  { top: 0%;   left: 80%; }
+  50%  { top: 50%;  left: 80%;  animation-timing-function: cubic-bezier(0.19, 0.64, 0.85, 0.36); }
+  98%  { top: 50%;  left: 0%; }
+  100% { top: 0%;   left: 0%; }
+}
+
+/* Inner container — conic gradient border via ::before/::after */
+.sv-fancy-input-content {
+  display: flex;
+  align-items: center;
+  background: rgb(0, 0, 0);
+  padding: 4px 8px 4px 12px;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  min-height: 48px;
+  z-index: 1;
+}
+
+.sv-fancy-input-content::before {
+  content: "";
+  position: absolute;
+  height: 300px;
+  aspect-ratio: 1 / 1;
+  background-image: conic-gradient(
+    from 90deg,
+    hsl(310, 90%, 75%) 0%,
+    hsl(310, 90%, 25%) 2%,
+    var(--fi-color) 5%,
+    black 20%,
+    black 30%,
+    var(--fi-color) 35%,
+    var(--fi-color) 95%,
+    hsl(310, 90%, 25%) 98%,
+    hsl(310, 90%, 75%) 100%
+  );
+  animation: sv-fi-rotate 16s linear infinite -8s;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sv-fancy-input-content::after {
+  content: "";
+  position: absolute;
+  height: 300px;
+  aspect-ratio: 1 / 1;
+  background-image: conic-gradient(
+    from 90deg,
+    hsl(247, 90%, 75%) 0%,
+    hsl(247, 90%, 25%) 2%,
+    var(--fi-color) 5%,
+    rgb(19, 19, 19) 20%,
+    rgb(19, 19, 19) 30%,
+    var(--fi-color) 35%,
+    var(--fi-color) 95%,
+    hsl(247, 90%, 25%) 98%,
+    hsl(247, 90%, 75%) 100%
+  );
+  animation: sv-fi-rotate 16s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes sv-fi-rotate {
+  0%  { transform: rotate(0deg); }
+  to  { transform: rotate(360deg); }
+}
+
+/* Inner black overlay — clips the conic to just the border */
+.sv-fancy-input-light {
+  display: flex;
+  position: absolute;
+  inset: 1px;
+  background: rgb(0, 0, 0);
+  clip-path: inset(0 round 7px);
+  z-index: 1;
+}
+
+/* Traveling inner glow lights */
+.sv-fancy-input-light::after {
+  content: "";
+  position: absolute;
+  right: 0%;
+  bottom: -50%;
+  box-shadow:
+    0px 0px 30px 5px hsl(247, 90%, 25%),
+    0px 0px 30px 20px hsl(247, 90%, 55%);
+  animation: sv-fi-rotate-light 16s linear infinite -8s;
+  z-index: 4;
+}
+.sv-fancy-input-light::before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  bottom: 150%;
+  box-shadow:
+    0px 0px 30px 5px hsl(310, 90%, 25%),
+    0px 0px 30px 20px hsl(310, 90%, 55%);
+  animation: sv-fi-rotate-light 16s linear infinite;
+}
+
+@keyframes sv-fi-rotate-light {
+  0%   { right: 100%; bottom: 150%; animation-timing-function: cubic-bezier(0.19, 0.64, 0.85, 0.36); }
+  48%  { right: 0%;   bottom: 150%; }
+  50%  { right: 0%;   bottom: -50%; animation-timing-function: cubic-bezier(0.19, 0.64, 0.85, 0.36); }
+  98%  { right: 100%; bottom: -50%; }
+  100% { right: 100%; bottom: 150%; }
+}
+
+/* The actual input element */
+.sv-fancy-input {
+  all: unset;
+  flex: 1;
+  width: 100%;
+  padding: 12px 1rem;
+  color: #ffffff;
+  font-family: 'Outfit', Helvetica, Arial, sans-serif;
+  font-size: 0.95rem;
+  z-index: 2;
+  position: relative;
+  background: transparent;
+  border-radius: 10px;
+}
+.sv-fancy-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+.sv-fancy-input:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ─── Neon Checkbox (SuccessStep auto-trigger) ──────────────────────────────── */
+.neon-checkbox {
+  --primary: #00ffaa;
+  --primary-dark: #00cc88;
+  --size: 80px;
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  -webkit-tap-highlight-color: transparent;
+}
+.neon-checkbox input { display: none; }
+.neon-checkbox__frame { position: relative; width: 100%; height: 100%; }
+.neon-checkbox__box {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.8);
+  border-radius: 16px;
+  border: 2px solid var(--primary-dark);
+  transition: all 0.4s ease;
+}
+.neon-checkbox__check-container {
+  position: absolute; inset: 2px;
+  display: flex; align-items: center; justify-content: center;
+}
+.neon-checkbox__check {
+  width: 80%; height: 80%;
+  fill: none; stroke: var(--primary);
+  stroke-width: 3; stroke-linecap: round; stroke-linejoin: round;
+  stroke-dasharray: 40; stroke-dashoffset: 40;
+  transform-origin: center;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.neon-checkbox__glow {
+  position: absolute; inset: -2px; border-radius: 18px;
+  background: var(--primary); opacity: 0;
+  filter: blur(8px); transform: scale(1.2);
+  transition: all 0.4s ease;
+}
+.neon-checkbox__borders { position: absolute; inset: 0; border-radius: 16px; overflow: hidden; }
+.neon-checkbox__borders span { position: absolute; width: 40px; height: 1px; background: var(--primary); opacity: 0; transition: opacity 0.4s ease; }
+.neon-checkbox__borders span:nth-child(1) { top: 0; left: -100%; animation: borderFlow1 2s linear infinite; }
+.neon-checkbox__borders span:nth-child(2) { top: -100%; right: 0; width: 1px; height: 40px; animation: borderFlow2 2s linear infinite; }
+.neon-checkbox__borders span:nth-child(3) { bottom: 0; right: -100%; animation: borderFlow3 2s linear infinite; }
+.neon-checkbox__borders span:nth-child(4) { bottom: -100%; left: 0; width: 1px; height: 40px; animation: borderFlow4 2s linear infinite; }
+.neon-checkbox__particles span { position: absolute; width: 4px; height: 4px; background: var(--primary); border-radius: 50%; opacity: 0; pointer-events: none; top: 50%; left: 50%; box-shadow: 0 0 6px var(--primary); }
+.neon-checkbox__rings { position: absolute; inset: -20px; pointer-events: none; }
+.neon-checkbox__rings .ring { position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--primary); opacity: 0; transform: scale(0); }
+.neon-checkbox__sparks span { position: absolute; width: 20px; height: 1px; background: linear-gradient(90deg, var(--primary), transparent); opacity: 0; }
+
+.neon-checkbox.checked .neon-checkbox__box { border-color: var(--primary); background: rgba(0,255,170,0.1); }
+.neon-checkbox.checked .neon-checkbox__check { stroke-dashoffset: 0; transform: scale(1.1); }
+.neon-checkbox.checked .neon-checkbox__glow { opacity: 0.2; }
+.neon-checkbox.checked .neon-checkbox__borders span { opacity: 1; }
+.neon-checkbox.checked .neon-checkbox__particles span { animation: particleExplosion 0.6s ease-out forwards; }
+.neon-checkbox.checked .neon-checkbox__rings .ring { animation: ringPulse 0.6s ease-out forwards; }
+.neon-checkbox.checked .neon-checkbox__sparks span { animation: sparkFlash 0.6s ease-out forwards; }
+
+.neon-checkbox__particles span:nth-child(1)  { --x: 25px;  --y: -25px; }
+.neon-checkbox__particles span:nth-child(2)  { --x: -25px; --y: -25px; }
+.neon-checkbox__particles span:nth-child(3)  { --x: 25px;  --y: 25px;  }
+.neon-checkbox__particles span:nth-child(4)  { --x: -25px; --y: 25px;  }
+.neon-checkbox__particles span:nth-child(5)  { --x: 35px;  --y: 0px;   }
+.neon-checkbox__particles span:nth-child(6)  { --x: -35px; --y: 0px;   }
+.neon-checkbox__particles span:nth-child(7)  { --x: 0px;   --y: 35px;  }
+.neon-checkbox__particles span:nth-child(8)  { --x: 0px;   --y: -35px; }
+.neon-checkbox__particles span:nth-child(9)  { --x: 20px;  --y: -30px; }
+.neon-checkbox__particles span:nth-child(10) { --x: -20px; --y: 30px;  }
+.neon-checkbox__particles span:nth-child(11) { --x: 30px;  --y: 20px;  }
+.neon-checkbox__particles span:nth-child(12) { --x: -30px; --y: -20px; }
+.neon-checkbox__sparks span:nth-child(1) { --r: 0deg;   top: 50%; left: 50%; }
+.neon-checkbox__sparks span:nth-child(2) { --r: 90deg;  top: 50%; left: 50%; }
+.neon-checkbox__sparks span:nth-child(3) { --r: 180deg; top: 50%; left: 50%; }
+.neon-checkbox__sparks span:nth-child(4) { --r: 270deg; top: 50%; left: 50%; }
+.neon-checkbox__rings .ring:nth-child(1) { animation-delay: 0s;   }
+.neon-checkbox__rings .ring:nth-child(2) { animation-delay: 0.1s; }
+.neon-checkbox__rings .ring:nth-child(3) { animation-delay: 0.2s; }
+
+@keyframes borderFlow1 { 0% { transform: translateX(0); }   100% { transform: translateX(200%); } }
+@keyframes borderFlow2 { 0% { transform: translateY(0); }   100% { transform: translateY(200%); } }
+@keyframes borderFlow3 { 0% { transform: translateX(0); }   100% { transform: translateX(-200%); } }
+@keyframes borderFlow4 { 0% { transform: translateY(0); }   100% { transform: translateY(-200%); } }
+@keyframes particleExplosion {
+  0%   { transform: translate(-50%,-50%) scale(1); opacity: 0; }
+  20%  { opacity: 1; }
+  100% { transform: translate(calc(-50% + var(--x,20px)), calc(-50% + var(--y,20px))) scale(0); opacity: 0; }
+}
+@keyframes ringPulse { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
+@keyframes sparkFlash {
+  0%   { transform: rotate(var(--r,0deg)) translateX(0) scale(1); opacity: 1; }
+  100% { transform: rotate(var(--r,0deg)) translateX(30px) scale(0); opacity: 0; }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────── */
+@keyframes sv-travelingLight {
+  0%   { background-position: 0%   0%; }
+  100% { background-position: 300% 0%; }
+}
+
+@keyframes sv-gradientShift {
+  0%   { background-position: 0%   50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0%   50%; }
+}
+
+@keyframes sv-statusPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+
+@keyframes scanline {
+  0%, 100% { top: 0%;   opacity: 1;   }
+  50%       { top: 100%; opacity: 0.5; }
+}
+
+@keyframes sv-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes sv-pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 18px rgba(41,98,255,0.35);
+  }
+  50% {
+    box-shadow: 0 0 34px rgba(41,98,255,0.65);
+  }
+}
+
+.scanner-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Rotating border line — same as .back::before */
+.scanner-card::before {
+  position: absolute;
+  content: '';
+  display: block;
+  width: 160px;
+  height: 160%;
+  background: linear-gradient(90deg, transparent, #2962FF, #00F0FF, #2962FF, transparent);
+  animation: sv-scanner-spin 4s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Inner mask — same as .back-content, clips line to border only */
+.scanner-card-inner {
+  position: absolute;
+  inset: 2px;
+  border-radius: inherit;
+  background: #000000;
+  z-index: 2;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+}
+
+/* All scanner content sits inside .scanner-card-inner, above the mask */
+.scanner-card-inner > * {
+  position: relative;
+  z-index: 3;
+}
+
+@keyframes sv-scanner-spin {
+  0%   { transform: rotateZ(0deg); }
+  100% { transform: rotateZ(360deg); }
 }
