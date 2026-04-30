@@ -9,11 +9,11 @@ import VoidStep from '@/components/steps/VoidStep'
 const logoWithName = '/assets/svlogoname.png'
 
 // ── Steps ────────────────────────────────────────────────────────────────────
-const STEP_SCAN    = 0
-const STEP_PIN     = 1
-const STEP_AMOUNT  = 2
+const STEP_SCAN = 0
+const STEP_PIN = 1
+const STEP_AMOUNT = 2
 const STEP_SUCCESS = 3
-const STEP_VOID    = 4
+const STEP_VOID = 4
 
 const STEP_LABELS = ['Scan', 'PIN', 'Amount', 'Done']
 
@@ -22,7 +22,7 @@ function StepIndicator({ current }) {
   return (
     <div className="flex items-center justify-center gap-0 mb-10">
       {STEP_LABELS.map((label, i) => {
-        const done   = i < current
+        const done = i < current
         const active = i === current
         const upcoming = i > current
 
@@ -45,16 +45,16 @@ function StepIndicator({ current }) {
                   background: done
                     ? 'linear-gradient(135deg, #7B2CBF, #2962FF)'
                     : active
-                    ? 'linear-gradient(135deg, #2962FF, #7B2CBF)'
-                    : 'rgba(255, 255, 255, 0.02)',
+                      ? 'linear-gradient(135deg, #2962FF, #7B2CBF)'
+                      : 'rgba(255, 255, 255, 0.02)',
                   border: upcoming
                     ? '1.5px solid rgba(255, 255, 255, 0.12)'
                     : 'none',
                   boxShadow: done
                     ? '0 0 20px rgba(123, 44, 191, 0.35)'
                     : active
-                    ? '0 0 24px rgba(41, 98, 255, 0.45)'
-                    : 'none',
+                      ? '0 0 24px rgba(41, 98, 255, 0.45)'
+                      : 'none',
                   animation: active ? 'sv-pulseGlow 2.4s ease-in-out infinite' : 'none',
                 }}
               >
@@ -77,7 +77,7 @@ function StepIndicator({ current }) {
                 {label}
               </span>
             </div>
-            
+
             {i < STEP_LABELS.length - 1 && (
               <div style={{
                 width: 40,
@@ -159,16 +159,16 @@ function LoadingOverlay({ message = 'Please wait…' }) {
 
 // ── Main App ──────────────────────────────────────────────────────────────────
 export default function App() {
-  const [step, setStep]               = useState(STEP_SCAN)
-  const [proofToken, setProofToken]   = useState(null)
+  const [step, setStep] = useState(STEP_SCAN)
+  const [proofToken, setProofToken] = useState(null)
   const [entitlement, setEntitlement] = useState(null)
   const [merchantPin, setMerchantPin] = useState(null)
-  const [result, setResult]           = useState(null)
+  const [result, setResult] = useState(null)
   const [redemptionId, setRedemptionId] = useState(null)
-  const [loading, setLoading]         = useState(false)
-  const [loadingMsg, setLoadingMsg]   = useState('Please wait…')
-  const [error, setError]             = useState(null)
-  const [serviceOk, setServiceOk]     = useState(true)
+  const [loading, setLoading] = useState(false)
+  const [loadingMsg, setLoadingMsg] = useState('Please wait…')
+  const [error, setError] = useState(null)
+  const [serviceOk, setServiceOk] = useState(true)
   const pendingRef = useRef(false)
 
   useEffect(() => {
@@ -177,9 +177,9 @@ export default function App() {
       .catch(() => setServiceOk(false))
   }, [])
 
-  const clearError  = () => setError(null)
-  const startLoad   = (msg) => { setLoadingMsg(msg); setLoading(true) }
-  const stopLoad    = () => setLoading(false)
+  const clearError = () => setError(null)
+  const startLoad = (msg) => { setLoadingMsg(msg); setLoading(true) }
+  const stopLoad = () => setLoading(false)
 
   const handleReset = () => {
     setStep(STEP_SCAN)
@@ -275,28 +275,15 @@ export default function App() {
   }
 
   const titles = {
-    [STEP_SCAN]:    { title: 'Scan Student QR',    sub: "Point camera at the student's QR code" },
-    [STEP_PIN]:     { title: 'Enter Merchant PIN',  sub: 'Verify your identity with your PIN' },
-    [STEP_AMOUNT]:  { title: 'Enter Bill Amount',   sub: 'Enter the total bill before discount' },
-    [STEP_SUCCESS]: { title: '',                    sub: '' },
-    [STEP_VOID]:    { title: 'Void Redemption',     sub: 'Cancel this redemption within the 2-hour window' },
+    [STEP_SCAN]: { title: 'Scan Student QR', sub: "Point camera at the student's QR code" },
+    [STEP_PIN]: { title: 'Enter Merchant PIN', sub: 'Verify your identity with your PIN' },
+    [STEP_AMOUNT]: { title: 'Enter Bill Amount', sub: 'Enter the total bill before discount' },
+    [STEP_SUCCESS]: { title: '', sub: '' },
+    [STEP_VOID]: { title: 'Void Redemption', sub: 'Cancel this redemption within the 2-hour window' },
   }
 
   const showProgressBar = step < STEP_SUCCESS
 
-  // ── DEV SKIP: cycle through steps without real data ───────────────────────
-  const DEV_MOCK = {
-    entitlement: { offer_title: 'Dev Mock Offer', discount_percentage: 20, discount_value: '20%', merchant_name: 'Test Merchant', student_name: 'Test Student' },
-    result: { total_bill: 100, discount_amount: 20, final_amount: 80, savings: 20, redemption_id: 'dev-mock-1234-abcd', redeemed_at: new Date().toISOString() },
-  }
-  const handleDevSkip = () => {
-    if (step === STEP_SCAN) { setEntitlement(DEV_MOCK.entitlement); setProofToken('dev-token'); setStep(STEP_PIN) }
-    else if (step === STEP_PIN) { setMerchantPin('0000'); setStep(STEP_AMOUNT) }
-    else if (step === STEP_AMOUNT) { setResult(DEV_MOCK.result); setRedemptionId('dev-mock-1234-abcd'); setStep(STEP_SUCCESS) }
-    else if (step === STEP_SUCCESS) { setStep(STEP_VOID) }
-    else { handleReset() }
-  }
-  const devSkipLabel = ['→ PIN', '→ Amount', '→ Success', '→ Void', '↺ Reset'][step] || '→'
 
   return (
     <>
@@ -392,60 +379,6 @@ export default function App() {
           © {new Date().getFullYear()} StudentVerse · Merchant Portal
         </footer>
       </div>
-
-      {/* ── DEV BACK BUTTON (remove before production) ── */}
-      {step > STEP_SCAN && (
-        <button
-          onClick={() => setStep(s => s - 1)}
-          title="Dev: go to previous step"
-          style={{
-            position: 'fixed', bottom: 24, left: 24, zIndex: 999,
-            background: 'rgba(255,255,255,0.06)',
-            border: '1px solid rgba(255,255,255,0.2)',
-            borderRadius: 50,
-            color: 'rgba(255,255,255,0.5)',
-            fontSize: '0.72rem',
-            fontWeight: 700,
-            fontFamily: 'Outfit, sans-serif',
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-            padding: '0.5rem 1rem',
-            cursor: 'pointer',
-            backdropFilter: 'blur(12px)',
-            transition: 'all 0.2s ease',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = '#fff' }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.5)' }}
-        >
-          DEV ←
-        </button>
-      )}
-
-      {/* ── DEV SKIP BUTTON (remove before production) ── */}
-      <button
-        onClick={handleDevSkip}
-        title="Dev: skip to next step"
-        style={{
-          position: 'fixed', bottom: 24, right: 24, zIndex: 999,
-          background: 'rgba(255,184,0,0.15)',
-          border: '1px solid rgba(255,184,0,0.4)',
-          borderRadius: 50,
-          color: '#FFB800',
-          fontSize: '0.72rem',
-          fontWeight: 700,
-          fontFamily: 'Outfit, sans-serif',
-          textTransform: 'uppercase',
-          letterSpacing: '0.1em',
-          padding: '0.5rem 1rem',
-          cursor: 'pointer',
-          backdropFilter: 'blur(12px)',
-          transition: 'all 0.2s ease',
-        }}
-        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,184,0,0.28)'; e.currentTarget.style.boxShadow = '0 0 16px rgba(255,184,0,0.3)' }}
-        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,184,0,0.15)'; e.currentTarget.style.boxShadow = 'none' }}
-      >
-        DEV {devSkipLabel}
-      </button>
     </>
   )
 }
