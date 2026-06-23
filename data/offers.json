@@ -1,0 +1,137 @@
+[
+  {
+    "id": "OFR-001",
+    "brand_id": "BRD-001",
+    "category_id": "CAT-001",
+    "title": "Student Meal Combo - 30% Off",
+    "original_price": 15.00,
+    "discounted_price": 10.50,
+    "discount_percent": 30
+  },
+  {
+    "id": "OFR-002",
+    "brand_id": "BRD-002",
+    "category_id": "CAT-001",
+    "title": "Large Pizza at 25% Discount",
+    "original_price": 25.00,
+    "discounted_price": 18.75,
+    "discount_percent": 25
+  },
+  {
+    "id": "OFR-003",
+    "brand_id": "BRD-003",
+    "category_id": "CAT-002",
+    "title": "Student Fashion Week - 20% Off",
+    "original_price": 80.00,
+    "discounted_price": 64.00,
+    "discount_percent": 20
+  },
+  {
+    "id": "OFR-004",
+    "brand_id": "BRD-004",
+    "category_id": "CAT-003",
+    "title": "Student Gym Membership - 35% Off",
+    "original_price": 60.00,
+    "discounted_price": 39.00,
+    "discount_percent": 35
+  },
+  {
+    "id": "OFR-005",
+    "brand_id": "BRD-005",
+    "category_id": "CAT-001",
+    "title": "Weekly Grocery Bundle - 15% Off",
+    "original_price": 30.00,
+    "discounted_price": 25.50,
+    "discount_percent": 15
+  },
+  {
+    "id": "OFR-006",
+    "brand_id": "BRD-006",
+    "category_id": "CAT-005",
+    "title": "10GB Data Bundle - 20% Student Discount",
+    "original_price": 30.00,
+    "discounted_price": 24.00,
+    "discount_percent": 20
+  },
+  {
+    "id": "OFR-007",
+    "brand_id": "BRD-007",
+    "category_id": "CAT-001",
+    "title": "Student Bucket Meal - 25% Off",
+    "original_price": 20.00,
+    "discounted_price": 15.00,
+    "discount_percent": 25
+  },
+  {
+    "id": "OFR-008",
+    "brand_id": "BRD-008",
+    "category_id": "CAT-002",
+    "title": "Seasonal Collection - 30% Student Discount",
+    "original_price": 120.00,
+    "discounted_price": 84.00,
+    "discount_percent": 30
+  },
+  {
+    "id": "OFR-009",
+    "brand_id": "BRD-009",
+    "category_id": "CAT-001",
+    "title": "Breakfast Special - 20% Off",
+    "original_price": 12.00,
+    "discounted_price": 9.60,
+    "discount_percent": 20
+  },
+  {
+    "id": "OFR-010",
+    "brand_id": "BRD-010",
+    "category_id": "CAT-006",
+    "title": "Movie Ticket - 40% Student Discount",
+    "original_price": 15.00,
+    "discounted_price": 9.00,
+    "discount_percent": 40
+  },
+  {
+    "id": "OFR-011",
+    "brand_id": "BRD-011",
+    "category_id": "CAT-007",
+    "title": "Ride Discount - 25% Off Peak Hours",
+    "original_price": 50.00,
+    "discounted_price": 37.50,
+    "discount_percent": 25
+  },
+  {
+    "id": "OFR-012",
+    "brand_id": "BRD-012",
+    "category_id": "CAT-004",
+    "title": "Course Bundle - 50% Student Discount",
+    "original_price": 100.00,
+    "discounted_price": 50.00,
+    "discount_percent": 50
+  },
+  {
+    "id": "OFR-013",
+    "brand_id": "BRD-001",
+    "category_id": "CAT-001",
+    "title": "Free Drink with Meal",
+    "original_price": 18.00,
+    "discounted_price": 15.00,
+    "discount_percent": 17
+  },
+  {
+    "id": "OFR-014",
+    "brand_id": "BRD-006",
+    "category_id": "CAT-005",
+    "title": "Unlimited Social Media - 15% Off",
+    "original_price": 20.00,
+    "discounted_price": 17.00,
+    "discount_percent": 15
+  },
+  {
+    "id": "OFR-015",
+    "brand_id": "BRD-011",
+    "category_id": "CAT-007",
+    "title": "Weekend Ride Pass - 30% Off",
+    "original_price": 75.00,
+    "discounted_price": 52.50,
+    "discount_percent": 30
+  }
+]

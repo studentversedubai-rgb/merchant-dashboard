@@ -1,0 +1,29 @@
+
+> studenverse-info@0.1.0 dev
+> next dev -p 3001
+
+▲ Next.js 16.2.9 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://192.168.56.1:3001
+- Environments: .env.local
+✓ Ready in 547ms
+
+○ Compiling /students ...
+ GET /students 200 in 4.4s (next.js: 3.7s, application-code: 624ms)
+ GET / 307 in 404ms (next.js: 322ms, application-code: 82ms)
+ GET /login 200 in 417ms (next.js: 366ms, application-code: 51ms)
+ GET /dashboard 200 in 831ms (next.js: 796ms, application-code: 35ms)
+ GET /api/dashboard-data/categories 200 in 3.4s (next.js: 915ms, application-code: 2.5s)
+ GET /api/dashboard-data/analytics-events 200 in 3.5s (next.js: 916ms, application-code: 2.6s)
+ GET /api/dashboard-data/students 200 in 3.6s (next.js: 935ms, application-code: 2.7s)
+ GET /api/dashboard-data/brands 200 in 3.7s (next.js: 921ms, application-code: 2.7s)
+ GET /api/dashboard-data/students 200 in 3.7s (next.js: 915ms, application-code: 2.7s)
+ GET /api/dashboard-data/redemptions 200 in 3.7s (next.js: 918ms, application-code: 2.8s)
+ GET /api/dashboard-data/brands 200 in 731ms (next.js: 31ms, application-code: 700ms)
+ GET /api/dashboard-data/categories 200 in 689ms (next.js: 18ms, application-code: 672ms)
+ GET /api/dashboard-data/redemptions 200 in 817ms (next.js: 57ms, application-code: 760ms)
+ GET /api/dashboard-data/analytics-events 200 in 725ms (next.js: 4ms, application-code: 721ms)
+ GET /students 200 in 41ms (next.js: 6ms, application-code: 34ms)
+ GET /redemptions 200 in 858ms (next.js: 814ms, application-code: 44ms)
+ GET /api/dashboard-data/students 200 in 1049ms (next.js: 53ms, application-code: 996ms)
+ GET /api/dashboard-data/students 200 in 1068ms (next.js: 34ms, application-code: 1034ms)

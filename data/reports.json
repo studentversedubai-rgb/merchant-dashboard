@@ -1,0 +1,50 @@
+[
+  {
+    "id": "RPT-001",
+    "name": "Student Spending Report",
+    "target_company_type": "Retail Brands",
+    "data_included": ["Average monthly spend", "Spend by category", "Spend by nationality", "Seasonal trends"],
+    "estimated_value": 5000.00,
+    "status": "ready"
+  },
+  {
+    "id": "RPT-002",
+    "name": "Brand Preference Report",
+    "target_company_type": "FMCG Companies",
+    "data_included": ["Top brands by category", "Brand loyalty metrics", "Redemption frequency", "Discount sensitivity"],
+    "estimated_value": 7500.00,
+    "status": "draft"
+  },
+  {
+    "id": "RPT-003",
+    "name": "University Market Report",
+    "target_company_type": "EdTech & Campus Services",
+    "data_included": ["Student demographics by university", "Spending power by institution", "Category preferences by campus", "Peak activity periods"],
+    "estimated_value": 6000.00,
+    "status": "ready"
+  },
+  {
+    "id": "RPT-004",
+    "name": "Nationality-Based Consumer Report",
+    "target_company_type": "International Brands",
+    "data_included": ["Spending habits by nationality", "Category preferences by region", "Price sensitivity analysis", "Brand affinity by nationality"],
+    "estimated_value": 8500.00,
+    "status": "draft"
+  },
+  {
+    "id": "RPT-005",
+    "name": "Category Demand Report",
+    "target_company_type": "Market Research Firms",
+    "data_included": ["Category growth trends", "Emerging category demand", "Average transaction value by category", "Cross-category behavior"],
+    "estimated_value": 4000.00,
+    "status": "ready"
+  },
+  {
+    "id": "RPT-006",
+    "name": "Monthly Student Trends Report",
+    "target_company_type": "Investment Firms",
+    "data_included": ["Month-over-month growth", "Active user trends", "Redemption volume analysis", "Estimated market size", "Student savings impact"],
+    "estimated_value": 10000.00,
+    "status": "draft"
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "id": "CAT-001",
+    "name": "Food & Drinks",
+    "total_redemptions": 2080,
+    "average_redemptions": 120,
+    "estimated_spend": 66300.00,
+    "estimated_savings": 20195.00,
+    "top_brand": "Shoprite",
+    "most_active_nationality": "Nigerian"
+  },
+  {
+    "id": "CAT-002",
+    "name": "Fashion",
+    "total_redemptions": 485,
+    "average_redemptions": 242,
+    "estimated_spend": 38800.00,
+    "estimated_savings": 11640.00,
+    "top_brand": "Zara",
+    "most_active_nationality": "South African"
+  },
+  {
+    "id": "CAT-003",
+    "name": "Fitness",
+    "total_redemptions": 210,
+    "average_redemptions": 210,
+    "estimated_spend": 12600.00,
+    "estimated_savings": 5040.00,
+    "top_brand": "Virgin Active",
+    "most_active_nationality": "South African"
+  },
+  {
+    "id": "CAT-004",
+    "name": "Education",
+    "total_redemptions": 340,
+    "average_redemptions": 340,
+    "estimated_spend": 10200.00,
+    "estimated_savings": 5100.00,
+    "top_brand": "Udemy",
+    "most_active_nationality": "Nigerian"
+  },
+  {
+    "id": "CAT-005",
+    "name": "Technology",
+    "total_redemptions": 650,
+    "average_redemptions": 650,
+    "estimated_spend": 19500.00,
+    "estimated_savings": 6500.00,
+    "top_brand": "MTN Data Bundles",
+    "most_active_nationality": "Nigerian"
+  },
+  {
+    "id": "CAT-006",
+    "name": "Entertainment",
+    "total_redemptions": 235,
+    "average_redemptions": 235,
+    "estimated_spend": 7050.00,
+    "estimated_savings": 2820.00,
+    "top_brand": "Cinelux",
+    "most_active_nationality": "Nigerian"
+  },
+  {
+    "id": "CAT-007",
+    "name": "Transport",
+    "total_redemptions": 480,
+    "average_redemptions": 480,
+    "estimated_spend": 24000.00,
+    "estimated_savings": 7200.00,
+    "top_brand": "Uber",
+    "most_active_nationality": "South African"
+  },
+  {
+    "id": "CAT-008",
+    "name": "Beauty",
+    "total_redemptions": 120,
+    "average_redemptions": 120,
+    "estimated_spend": 6000.00,
+    "estimated_savings": 2400.00,
+    "top_brand": "Lush",
+    "most_active_nationality": "Kenyan"
+  }
+]
